@@ -14,11 +14,7 @@
       {% include 'header' %}
 
       <div id="content">
-        {% if template == 'list-collections' %}
-          {% include 'collection-listing' %}
-        {% else %}
-          {{ content_for_layout }}
-        {% endif %}
+        {{ content_for_layout }}
       </div><!-- /#content -->
 
       {% include 'footer' %}
