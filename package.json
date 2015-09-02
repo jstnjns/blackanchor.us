@@ -1,0 +1,27 @@
+{
+  "name": "blackanchor.us",
+  "version": "0.0.1",
+  "description": "Shopify theme for Black Anchor Workshop",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/jstnjns/blackanchor.us"
+  },
+  "author": "Justin Jones <justin@jstnjns.com> (http://jstnjns.com/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jstnjns/blackanchor.us/issues"
+  },
+  "homepage": "https://github.com/jstnjns/blackanchor.us",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-coffee": "^2.3.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^2.0.4",
+    "gulp-shopify-upload": "^1.1.3"
+  }
+}
