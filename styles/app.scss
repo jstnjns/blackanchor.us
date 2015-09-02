@@ -2,6 +2,7 @@ $brand-primary: #357b9c;
 
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+.ng-cloak { display: none; }
 
 #drawer { display: none; }
 
