@@ -1,3 +1,25 @@
-body {
-  background: red;
+@import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+
+#drawer { display: none; }
+
+@media (min-width: $screen-sm-min) {
+  $dashboard-height: 36px;
+  $header-height: 50px;
+
+  body {
+    padding-top: $dashboard-height + $header-height;
+  }
+
+  #dashboard .navbar-nav > li > a {
+    padding-top: ($dashboard-height - $line-height-computed) / 2;
+    padding-bottom: ($dashboard-height - $line-height-computed) / 2;
+  }
+
+  #header .navbar-fixed-top {
+    top: $dashboard-height;
+  }
 }
+
+
+
