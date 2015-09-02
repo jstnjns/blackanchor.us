@@ -1,0 +1,6 @@
+<div id="comment-{{ comment.id }}" class="comment">
+  Posted {{ comment.created_at | date: "%B %d %Y at %I:%M%p" }}
+  By {{ comment.author }}
+
+  {{ comment.content }}
+</div> <!-- /.comment -->

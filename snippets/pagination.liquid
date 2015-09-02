@@ -1,0 +1,19 @@
+{% if paginate.pages > 1 %}
+
+  {% if paginate.previous %}
+    {{ paginate.previous.title | link_to: paginate.previous.url }}
+  {% endif %}
+  
+  {% for part in paginate.parts %}
+    {% if part.is_link %}
+      {{ part.title | link_to: part.url }}
+    {% else %}
+      {{ part.title | link_to: part.url }}
+    {% endif %}
+  {% endfor %}
+
+  {% if paginate.next %}
+    {{ paginate.next.title | link_to: paginate.next.url }}
+  {% endif %}
+
+{% endif %}

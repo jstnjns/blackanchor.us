@@ -1,0 +1,28 @@
+{
+  "current": {
+    "slider_show": true,
+    "slide_1_show": true,
+    "slide_1_link": "http:\/\/shop.blackanchorworkshop.com\/products\/billfold-wallet",
+    "slide_2_show": false,
+    "slide_2_link": "http:\/\/shop.blackanchorworkshop.com\/products\/travel-wallet",
+    "slide_3_show": false,
+    "slide_3_link": "http:\/\/shop.blackanchorworkshop.com\/products\/slim-wallet",
+    "checkout_use_header_image": false,
+    "checkout_logo": "checkout_logo.png",
+    "checkout_logo_position": "left",
+    "checkout_use_body_background_image": false,
+    "checkout_body_background_color": "#fff",
+    "checkout_input_background_color_mode": "white",
+    "checkout_use_sidebar_background_image": false,
+    "checkout_sidebar_background_color": "#fafafa",
+    "checkout_heading_font": "Open Sans",
+    "checkout_body_font": "Raleway",
+    "checkout_accent_color": "#333333",
+    "checkout_button_color": "#333333",
+    "checkout_error_color": "#ff6d6d",
+    "customer_layout": "theme",
+    "checkout_banner_background_color": "#ffffff",
+    "checkout_headline": "Repair, not replace. Heritage Pieces.",
+    "checkout_call_to_action_color": "#777777"
+  }
+}

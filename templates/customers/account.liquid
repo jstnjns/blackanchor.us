@@ -1,0 +1,78 @@
+{% layout settings.customer_layout %}
+<div class="row">
+  <div class="span6 offset3">
+
+    <section>
+      <header>
+        <h2 class="title">Account</h2>
+      </header>
+
+      <p class="text-center">
+        <strong>{{ customer.name }}</strong><br>
+        {{ customer.email }}
+      </p>
+    </section>
+
+    <hr>
+
+    <section>
+      <header>
+        <h3 class="title">Address</h3>
+      </header>
+
+      <address class="text-center">
+        {% if customer.default_address != nil %}
+        <strong>{{ customer.default_address.first_name }} {{customer.default_address.last_name }}</strong><br>
+        <em>{{ customer.default_address.company }}</em></br>
+
+        <span class="muted">
+          {{ customer.default_address.address1 }}<br>
+          {% if customer.default_address.address2 != "" %}
+          {{ customer.default_address.address2 }}<br>
+          {% endif %}
+          {{ customer.default_address.city}}, {% if address.province_code %}{{customer.default_address.province_code}}, {% endif %}{{customer.default_address.country}}<br>
+          {{ customer.default_address.zip}}
+        </span><br>
+        P: {{ customer.default_address.phone }}
+        {% endif %}
+      </address>
+
+      <p class="text-center">
+        <a href="/account/addresses" class="btn btn-default">
+          View Addresses ({{ customer.addresses_count }})
+        </a>
+      </p>
+    </section>
+
+    <hr>
+
+    <section>
+      <header>
+        <h3 class="title">Orders</h3>
+      </header>
+
+      {% if customer.orders.size != 0 %}
+      <table class="table">
+        <tbody>
+          {% for order in customer.orders %}
+          <tr class="{% cycle 'odd', 'even' %} {% if order.cancelled %}cancelled_order{% endif %}">
+            <td>
+              {{ order.created_at | date: "%d %b %Y" | link_to: order.customer_url }}
+            </td>
+            <td>
+              {{ order.fulfillment_status | capitalize | link_to: order.customer_url }}
+            </td>
+            <td class="text-right">
+              {{ order.total_price | money | link_to: order.customer_url }}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+        <p>You haven't placed any orders yet.</p>
+      {% endif %}
+    </secton>
+
+  </div>
+</div>

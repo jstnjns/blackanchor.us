@@ -1,0 +1,95 @@
+{% if cart.item_count == 0 %}
+
+  <p class="alert">Your shopping cart is empty. View <a href="/collections/all" title="View all products">all products</a>.</p>
+
+{% else %}
+
+  <form action="/cart" method="post" id="cartform">
+    <table class="table">
+      <tr>
+        <th class="item">Item</th>
+        <th class="price">Price</th>
+        <th class="quantity">Qty</th>
+        <th class="remove"></th>
+        <th class="total hidden-phone">Total</th>
+      </tr>
+
+      {% for item in cart.items %}
+        <tr data-variant="item.variant.id">
+          <td class="item">
+            <div class="media">
+              <a href="{{ item.product.url }}" class="pull-left hidden-phone">
+                <img src="{{ item.product.images.first | product_img_url: 'thumb' }}" class="media-object" />
+              </a>
+              <div class="media-content">
+                <h4 class="media-heading">
+                  <a href="{{ item.product.url }}">{{ item.product.title }}</a>
+                </h4>
+                <p>
+                  <small>{{ item.variant.title }}</small>
+                </p>
+              </div>
+            </div>
+          </td>
+          <td class="price">
+            {{ item.price | money | replace: ' ','&nbsp;' }}
+            {% if item.product.compare_at_price > item.product.price %}<br />
+              <s>{{ item.product.compare_at_price | money | replace: ' ','&nbsp;' }}</s>
+            {% endif %}
+          </td>
+          <td class="quantity">
+            <input type="text" name="updates[{{item.variant.id}}]" value="{{ item.quantity }}"
+              id="updates_{{ item.variant.id }}" class="span1" />
+          </td>
+          <td class="remove">
+            <a class="close">&times;</a>
+          </td>
+          <td class="total hidden-phone">
+            {{ item.line_price | money | replace: ' ','&nbsp;' }}
+          </td>
+        </tr>
+      {% endfor %}
+    
+      <tr>
+        <td colspan="5">
+          <h3 class="pull-right">Subtotal {{ cart.total_price | money | replace: ' ','&nbsp;' }}</h3>
+
+          <div class="pull-left hidden-phone">
+            <p>
+              <a href="#collapseOne" data-toggle="collapse" class="accordion-toggle btn">
+                <i class="icon-pencil"></i> Add a note to your order&hellip;
+              </a>
+            </p>
+
+            <div class="collapse" id="collapseOne" style="height: 0px;">    
+              <textarea name="note" id="note" rows="5" class="span6">{{ cart.note }}</textarea>  
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+
+    <div class="form-actions">
+      <div class="btn-group pull-right">
+        <button name="update" type="submit" class="btn">Update</button>
+        <button name="checkout" type="submit" class="btn btn-inverse">Checkout</button>
+      </div>
+    </div>
+  </form>
+{% endif %}
+
+
+<script type="text/javascript">
+$(function() {
+  var $form = $('#cartform');
+
+  $('.remove a').on('click', function(event) {
+    event.preventDefault();
+
+    var $item = $(this).closest('[data-variant]'),
+        $input = $item.find('[type="text"]').val(0);
+
+    $form.trigger('submit');
+  });
+});
+</script>

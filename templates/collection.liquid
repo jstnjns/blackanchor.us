@@ -1,0 +1,31 @@
+{% paginate collection.products by 100 %}
+
+  {% if collection.products.size == 0 %}
+    
+    <p>No products found in this collection.</p>
+
+  {% else %}
+
+    {% if collection.handle == 'all' %}
+
+      {% for collection in collections %}
+        {% if collection.handle != 'all' and collection.handle != 'featured' and collection.handle != 'hidden' %}
+          
+          {% include 'products-listing' %}
+
+          {% unless forloop.last %}
+            <hr>
+          {% endunless %}
+        {% endif %}
+      {% endfor %}
+    
+    {% else %}
+      
+      {% include 'products-listing' %}
+
+    {% endif %}
+
+  {% endif %}
+
+  {% include 'pagination' %}
+{% endpaginate %}

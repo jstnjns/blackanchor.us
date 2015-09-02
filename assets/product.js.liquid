@@ -1,0 +1,332 @@
+Backbone.Collection.prototype.activate = function(model) {
+  this.active = model ? this.get(model) : this.at(0);
+  this.trigger('activate', this.active);
+};
+
+Backbone.Collection.prototype.deactivate = function() {
+  this.trigger('deactivate', this.active);
+  this.active = undefined;
+};
+
+var ProductModel = Backbone.Model.extend({
+
+      initialize: function(data, options) {
+        this.set('variants', new Backbone.Collection(data.variants));
+      }
+
+    }),
+
+    ProductView = Backbone.View.extend({
+
+      _options: {},
+      _variants: {},
+
+      imageTemplate: _(
+        '<li class="item">' +
+          '<figure class="product-image image">' +
+            '<img src="<%= image %>">' +
+          '</figure>' +
+        '</li>'
+      ).template(),
+      thumbnailTemplate: _(
+        '<div class="span1">' +
+          '<figure class="product-thumbnail image">' +
+            '<img src="<%= image %>">' +
+          '</figure>' +
+        '</div>'
+      ).template(),
+
+      events: {
+        'click .variant': 'onVariantClick',
+        'click .product-thumbnail': 'onThumbnailClick'
+      },
+
+      onVariantClick: function() {
+
+      },
+
+      onThumbnailClick: function(event) {
+        event.preventDefault();
+
+        var $thumbnail = $(event.currentTarget),
+            index = $thumbnail.siblings().index($thumbnail);
+
+        this.slider.flexAnimate(index);
+      },
+
+      onVariantActivate: function(variant) {
+        console.log('active', variant);
+      },
+
+      initialize: function() {
+        _(this).bindAll(
+          'onVariantClick',
+          'onThumbnailClick',
+
+          'mapVariant',
+          'renderOptions', 'renderOption',
+          'renderVariants', 'renderVariant',
+          'renderImages', 'renderImage', 'renderSlideshow'
+        );
+
+        this.model = new ProductModel(product);
+        this.variants = this.model.get('variants');
+
+        this.listenTo(this.variants, {
+          'activate': this.onVariantActivate
+        });
+
+        this.render();
+      },
+
+      getImageSize: function(image, size) {
+        var parts = image.split('.'),
+            path = parts[0],
+            suffix = parts[1];
+
+        return path + '_' + size + suffix;
+      },
+
+      mapVariant: function(option, i) {
+        return _(this.model.get('variants').pluck('option' + (i + 1))).uniq();
+      },
+
+      render: function() {
+        this.$name = this.$('.title');
+        this.$price = this.$('#price-field');
+        this.$options = $('<div>', { 'class': 'product-options' });
+        this.$select = this.$('#product-select').replaceWith(this.$options);
+        this.$images = this.$('#product-images');
+        this.$thumbnails = this.$('#product-thumbnails');
+
+        this.renderOptions();
+        this.renderImages();
+
+        return this;
+      },
+
+      renderOptions: function() {
+        _(this.model.get('options')).each(this.renderOption);
+
+        this.variants.activate();
+      },
+
+      renderOption: function(option, i) {
+        var $name = $('<h4>', { 'text': option }),
+            $variants = $('<div>', { 'class': 'btn-group', 'data-toggle': 'buttons-radio' }),
+            $container = $('<div>', { 'class': 'product-option product-option-' + option.toLowerCase() })
+              .append($name, $variants)
+              .appendTo(this.$options);
+
+        this._options[option] = {
+          variants: this.mapVariant(option, i),
+          $variants: $variants
+        };
+
+        this.renderVariants(option);
+      },
+
+      renderVariants: function(option) {
+        this._options[option].$variants.empty();
+
+        _(this._options[option].variants).each(function(variant, i) {
+          this.renderVariant(variant, option, i);
+        }, this);
+      },
+
+      renderVariant: function(variant, option, i) {
+        var $container = this._options[option].$variants,
+            $variant = $('<a>', { 'class': 'btn', 'text': variant }).appendTo($container);
+
+        this._variants[variant] = {
+          $variant: $variant
+        };
+      },
+
+      renderImages: function() {
+        this.$images.empty();
+        this.$thumbnails.empty();
+
+        _(this.model.get('images')).each(this.renderImage);
+        _(this.renderSlideshow).defer();
+      },
+
+      renderSlideshow: function() {
+        this.$images.flexslider({
+          animation : 'slide',
+          animationSpeed : 200,
+          directionNav : false,
+
+          start : _(function(slider) {
+            this.slider = slider;
+          }).bind(this)
+        });
+      },
+
+      renderImage: function(image) {
+        var $image = $(this.imageTemplate({ image: image }))
+              .appendTo(this.$images),
+
+            $thumbnail = $(this.thumbnailTemplate({ image: image }))
+              .appendTo(this.$thumbnails);
+      }
+
+    }),
+
+    ProductOptionView = Backbone.View.extend({
+
+    });
+
+var init = function() {
+      productView = new ProductView({ el: '#content' });
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+String.prototype.upFirstChar = function() {
+  return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+
+
+$(function() {
+
+  var $feature = $('#product-images'),
+      $sups = $('#product-thumbnails img'),
+
+      slider = $feature.flexslider({
+        animation : 'slide',
+        animationSpeed : 200,
+        directionNav : false,
+        controlNav: false,
+
+        start : function(slider) {
+          $sups.on('click', function(event) {
+            event.preventDefault();
+
+            var $sup = $(event.currentTarget),
+                index = $sups.index($sup);
+
+            slider.flexAnimate(index);
+          });
+        }
+      });
+
+  var $content = $('#product-description'),
+      $sections = $('> [id]', $content)
+  		.addClass('tab-pane'),
+      $tabs = $('<ul>', {
+        'class' : 'nav nav-pills' 
+      }).prependTo($content);
+  
+  $content.wrapInner('<div class="tab-content">');
+
+  $sections.each(function(i) {
+    var $this = $(this).addClass(i == 0 ? 'active' : ''),
+        $tab = $('<li>', {
+          'class': i == 0 ? 'active' : '',
+        }).appendTo($tabs),
+        $link = $('<a>', {
+          'text': $this.attr('id').replace(/_-/, ' ').upFirstChar(),
+          'href': '#' + $this.attr('id'),
+          'data-toggle': 'tab'
+        }).appendTo($tab);
+  });
+});
+
+{% if product.available %}
+var selectCallback = function(variant, selector) {
+      if (variant && variant.available) {
+        var low_stock_trigger = {{ settings.low_stock_trigger | times: 1 }};
+        var inventory_quantity = variant.inventory_quantity;
+
+        // selected a valid variant
+        // remove unavailable class from add-to-cart button, and re-enable button
+        $('#addtocart')
+          .removeClass('disabled')
+          .removeAttr('disabled');
+    
+        if (variant.compare_at_price > variant.price) {
+          // update price field        
+          $('#price-field')
+            .removeClass('label-inverse')
+            .addClass('label-important')
+            .html(
+              Shopify.formatMoney(
+                variant.price,
+                "{{shop.money_with_currency_format}}"
+              ) +
+              "<s>" +
+              Shopify.formatMoney(
+                variant.compare_at_price,
+                "{{shop.money_with_currency_format}}"
+              ) +
+              "</s>"
+            ); 
+        } else {
+          // update price field        
+          $('#price-field')
+            .removeClass('label-important')
+            .addClass('label-inverse')
+            .html(
+              Shopify.formatMoney(
+                variant.price,
+                "{{shop.money_with_currency_format}}"
+              )
+            );
+        }
+
+      // variant doesn't exist
+      // set add-to-cart button to unavailable class and disable button
+      } else {
+        $('#addtocart')
+          .addClass('disabled')
+          .attr('disabled', 'disabled');
+        
+        var message = variant
+              ? "Sold Out"
+              : "Unavailable";    
+        
+        $('#price-field').text(message);
+      }
+    };
+
+// initialize multi selector for product
+$(function() {
+  {% if product.variants.size > 1 or product.options.size > 1 %}
+    new Shopify.OptionSelectors(
+          'product-select',
+          {
+            product: {{ product | json }},
+            onVariantSelected: selectCallback
+          }
+        );
+
+    {% assign found_one_in_stock = false %}
+    
+    {% for variant in product.variants %}
+      {% if variant.available and found_one_in_stock == false %}
+        {% assign found_one_in_stock = true %}
+        {% for option in product.options %}
+          
+          $('.single-option-selector:eq({{ forloop.index0 }})')
+            .val({{ variant.options[forloop.index0] | json }})
+            .trigger('change');
+
+        {% endfor %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+});
+{% endif %}

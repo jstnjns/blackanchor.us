@@ -1,0 +1,43 @@
+<section id="{{collection.handle}}">
+  <header>
+    <h2 class="title">{{ collection.title }}</h2>
+  </header>
+
+  <ol class="thumbnails">
+    {% for product in collection.products %}
+
+    <!-- csp tag-HIDE -->
+    {% assign csp_visible = true %}
+    {% for product_tag in product.tags %}{% if csp_visible == true %}
+    {% capture last_tag_piece %}{{ product_tag | split: '-' | last }}{% endcapture %}
+    {% if last_tag_piece == 'HIDE' %}
+    {% capture first_tag_piece %}{{ product_tag | split: '-' | first }}{% endcapture %}
+    {% if first_tag_piece == 'default' %}
+    {% assign csp_visible = false %}
+    {% assign csp_tag_group = shop.metafields.shop_csp_tag_group.shop_csp_tag | split: ',' %}
+    {% for csp_tag in csp_tag_group %}
+    {% if customer.tags contains csp_tag %}
+    {% assign csp_visible = true %}
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    {% if customer.tags contains first_tag_piece %}
+    {% assign csp_visible = false %}{% endif %}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+    {% if csp_visible == false %}{% else %}
+    {% if product.title != 'Test Belt' %}
+    {% include 'product-item' %}
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </ol>
+
+  {% if collection.handle == 'featured' %}
+  <footer>
+    <a href="/collections/all" class="btn btn-small">View All Products</a>
+  </footer>
+  {% endif %}
+</section>

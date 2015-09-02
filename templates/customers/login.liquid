@@ -1,0 +1,112 @@
+{% layout settings.customer_layout %}
+<div class="row">
+  <div class="span4 offset4 columns">
+      <section>
+        <header>
+          <h2 class="title">Login</h2>
+        </header>
+
+        {% form 'customer_login' %}
+        {% if form.errors %}
+        <div class="alert alert-error">
+          {% for field in form.errors %}
+            <div>{{form.errors.messages[field]}}</div>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="form form-horizontal">
+          <div class="control-group">
+            <input type="email" value="" name="customer[email]" id="customer_email" class="input-block-level" placeholder="Email">
+          </div>
+
+          {% if form.password_needed %}
+          <div class="control-group">
+            <input type="password" value="" name="customer[password]" id="customer_password" class="input-block-level" placeholder="Password">
+          </div>
+          {% endif %}
+
+          <button class="btn btn-primary btn-block" type="submit">
+            Sign in
+          </button>
+
+          <hr>
+        </div>
+
+        <p class="text-center">
+          <small>
+            <a href="#" onclick="showRecoverPasswordForm();return false;">
+              Forgot your password?
+            </a>
+          </small>
+        </p>
+        {% endform %}
+      </section>
+
+      <section id="recover-password" style='display:none'>
+        <header>
+          <h3 class="title">Password</h3>
+        </header>
+
+        <p class="note">
+          We will send you an email to reset your password.
+        </p>
+
+        {% form 'recover_customer_password' %}
+          {% if form.errors %}
+          <div class="alert alert-error">
+            {{ form.errors | default_errors }}
+          </div>
+          {% endif %}
+
+        <div class="form form-horizontal">
+          <div class="control-group">
+            <input type="email" value="" name="email" id="recover-email" class="input-block-level" placeholder="Email">
+          </div>
+
+          <div class="control-group">
+            <button class="btn btn-primary btn-block" type="submit">Submit</button>
+          </div>
+
+          <div class="control-group">
+            <a class="btn btn-block" href="#" onclick="hideRecoverPasswordForm();return false;">
+              Cancel
+            </a>
+          </div>
+        </div>
+        {% endform %}
+      </section>
+
+      {% if shop.checkout.guest_login %}
+      <section id="guest">
+        <header>
+          <h3 class="title">Guest Login</h3>
+        </header>
+
+        {% form 'guest_login' %}
+        <div class="control-group">
+          <button class="btn btn-primary" type="submit">
+            Continue as Guest
+          </button>
+        </div>
+        {% endform %}
+      </section>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function showRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'block';
+    document.getElementById('customer').style.display='none';
+  }
+
+  function hideRecoverPasswordForm() {
+    document.getElementById('recover-password').style.display = 'none';
+    document.getElementById('customer').style.display = 'block';
+  }
+
+  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
+</script>

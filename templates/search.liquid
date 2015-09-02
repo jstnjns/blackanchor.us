@@ -1,0 +1,61 @@
+<form class="well form-search" action="/search" method="get">
+    <input type="text" class="input-large search-query" name="q" value="{{search.terms  | escape}}" id="result-q">
+    <button type="submit" class="btn">Search</button>
+</form>
+
+{% if search.performed %}
+  
+  {% paginate search.results by 10 %}  
+
+  {% if search.results == empty %}  
+    Your search for "{{search.terms | escape}}" did not yield any results.              
+  {% else %}  
+
+     
+    {% for item in search.results %}  
+
+<!-- csp tag-HIDE --> 
+{% assign csp_visible = true %}
+{% for product_tag in item.tags %}
+{% if csp_visible == true %}
+{% capture last_tag_piece %}{{ product_tag | split: '-' | last }}{% endcapture %}
+{% if last_tag_piece == 'HIDE' %}
+{% capture first_tag_piece %}{{ product_tag | split: '-' | first }}{% endcapture %}
+ 
+{% if first_tag_piece == 'default' %}
+{% assign csp_visible = false %}
+{% assign csp_tag_group = shop.metafields.shop_csp_tag_group.shop_csp_tag | split: ',' %}
+{% for csp_tag in csp_tag_group %}
+{% if customer.tags contains csp_tag %}
+{% assign csp_visible = true %}
+{% endif %}
+{% endfor %}
+{% else %}
+{% if customer.tags contains first_tag_piece %}
+{% assign csp_visible = false %}
+{% endif %}
+{% endif %}
+{% endif %}{% endif %}
+{% endfor %}
+ 
+{% if csp_visible == false %}{% else %}
+
+
+      {% if item.featured_image %}
+        {{ item.featured_image | product_img_url: 'compact' | img_tag }}
+      {% endif %}
+      {{ item.title | link_to: item.url }}
+      {{ item.content | strip_html | truncatewords: 40 | highlight: search.terms }}
+      {{ item.title | link_to: item.url }}
+
+{% endif %}
+
+    {% endfor %}
+          
+
+  {% endif %}
+  
+  {% include 'pagination' %}
+  
+  {% endpaginate %}    
+{% endif %}

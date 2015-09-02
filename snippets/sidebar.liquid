@@ -1,0 +1,22 @@
+{{ linklists[settings.sidebar_linklist_1].title }}
+{% for link in linklists[settings.sidebar_linklist_1].links %}
+{{ link.title | link_to: link.url }}
+{% endfor %}
+{% if settings.sidebar_linklist_2.title != "" and linklists[settings.sidebar_linklist_2].links.size > 0 %} 
+{{ linklists[settings.sidebar_linklist_2].title }}
+{% for link in linklists[settings.sidebar_linklist_2].links %}
+{{ link.title | link_to: link.url }}
+{% endfor %}
+{% endif %}
+
+{% if settings.sidebar_linklist_3.title != "" and linklists[settings.sidebar_linklist_3].links.size > 0 %} 
+
+{{ linklists[settings.sidebar_linklist_3].title }}
+{% for link in linklists[settings.sidebar_linklist_3].links %}
+{{ link.title | link_to: link.url }}
+{% endfor %} 
+{% endif %}
+{{ blogs[settings.main_blog].title }}
+{% for article in blogs[settings.main_blog].articles %}
+{{ article.title | link_to: article.url }}
+{% endfor %}

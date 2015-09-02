@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="google-site-verification"
+      content="9DpQBO961_0uNAKstZ8jbEn3CCVR2s-7Vh2OrLUwn7M">
+
+    {% include 'head' %}
+    {{ content_for_header }}
+
+    <title>
+      {{ page_title }}
+      {% if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif %}
+      {% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}
+      {% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+    </title>
+
+    {% if page_description %}
+      <meta name="description"
+        content="{{ page_description | escape }}">
+    {% endif %}
+
+    <link rel="canonical" href="{{ canonical_url }}">
+  </head>
+
+  <body class="shop">
+    <div id="drawers" class="drawers">
+      <ul class="nav nav-list">
+        <li class="nav-header">Store</li>
+        <li>
+          <a href="http://www.blackanchorworkshop.com/cart">
+            <i class="icon-shopping-cart"></i>&nbsp;{{ cart.item_count }} Items In Cart
+          </a>
+        </li>
+        {% if customer %}
+        <li><a href="/account">Account</a></li>
+        <li>{{ "Logout" | customer_logout_link }}</li>
+        {% else %}
+        <li>{{ "Login" | customer_login_link }}</li>
+        {% endif %}
+
+        <li class="nav-header">Browse</li>
+
+        {% for link in linklists.main-menu.links %}
+          {% capture child_list_handle %}{{ link.title | handle }}{% endcapture %}
+
+          {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+            <li class="dropdown" id="menu{{ forloop.index }}"
+              {% if link.active %}
+                class="active"
+              {% endif %}
+              {% if template contains 'product' and link.title == 'Shop' %}
+                class="active"
+              {% endif %}
+            >
+              <a href="#menu{{ forloop.index }}" class="dropdown-toggle"
+                data-toggle="dropdown">
+                {{ link.title }}
+                <b class="caret"></b>
+              </a>
+
+              {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                <ul class="dropdown-menu">
+                  {% for l in linklists[child_list_handle].links %}
+                    <li><a href="{{ l.url }}">{{ l.title }}</a></li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            </li>
+
+          {% else %}
+            <li {% if link.active %}class="active"{% endif %}{% if template contains 'product' and link.title == 'Shop' %}class="active"{% endif %}>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endif %}
+        {% endfor %}
+
+        <li class="nav-header">Social</li>
+
+        <li class="instagram">
+          <a href="http://instagram.com/theblackanchor" target="_blank">
+            <i class="icon-camera-retro"></i> Instagram
+          </a>
+        </li>
+
+        <li class="twitter">
+          <a href="http://twitter.com/TheBlackAnchor" target="_blank">
+            <i class="icon-twitter"></i> Twitter
+          </a>
+        </li>
+
+        <li class="facebook">
+          <a href="http://www.facebook.com/BlackAnchorWorkshop" target="_blank">
+            <i class="icon-facebook"></i> Facebook
+          </a>
+        </li>
+
+        <li class="pinterest">
+          <a href="http://pinterest.com/source/shop.blackanchorworkshop.com/" target="_blank">
+            <i class="icon-pinterest"></i> Pinterest
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div id="wrap" class="snap-content">
+      <header id="dashboard" class="visible-desktop">
+        <div class="container">
+          <nav class="cart pull-right">
+            <ul class="unstyled inline">
+              <li class="shipping">
+                <a href="/collections/all">Black Anchor Manufacturing</a>
+              </li>
+
+              <li>
+                <a href="/cart">
+                  <i class="icon-shopping-cart"></i>&nbsp;{{ cart.item_count }}
+                </a>
+              </li>
+
+              {% if shop.customer_accounts_enabled %}
+              <li class="divider-vertical"></li>
+
+              {% if customer %}
+              <li class="dropdown">
+                <a href="/account" class="dropdown-toggle"
+                  data-toggle="dropdown" data-target="#">
+                  Welcome {{ customer.first_name }}
+                  <i class="icon icon-angle-down"></i>
+                </a>
+
+                <ul class="dropdown-menu pull-right">
+                  <li><a href="/account">Account</a></li>
+                  <li>{{ "Logout" | customer_logout_link }}</li>
+                </ul>
+              </li>
+
+              {% else %}
+
+              <li>{{ "Login" | customer_login_link }}</li>
+              {% endif %}
+
+              <!-- <li class="divider-vertical"></li> -->
+              {% endif %}
+            </ul>
+          </nav><!-- .cart -->
+
+          <nav class="social">
+            <ul class="unstyled inline">
+              <li class="instagram">
+                <a href="http://instagram.com/blkancr" target="_blank">
+                  <i class="icon-camera-retro"></i>
+                </a>
+              </li>
+              <li class="twitter">
+                <a href="http://twitter.com/TheBlackAnchor" target="_blank">
+                  <i class="icon-twitter"></i>
+                </a>
+              </li>
+              <li class="facebook">
+                <a href="http://www.facebook.com/BlackAnchorWorkshop" target="_blank">
+                  <i class="icon-facebook"></i>
+                </a>
+              </li>
+              <li class="pinterest">
+                <a href="http://pinterest.com/source/shop.blackanchorworkshop.com/" target="_blank">
+                  <i class="icon-pinterest"></i>
+                </a>
+              </li>
+            </ul>
+          </nav><!-- .social -->
+        </div><!-- .container -->
+      </header><!-- #dashboard -->
+
+      <header id="header">
+        <div class="navbar navbar-fixed-top navbar-inverse">
+          <div class="navbar-inner">
+            <div class="container">
+              <a class="btn btn-navbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </a>
+
+              <a href="/" class="brand">Home</a>
+
+              <div class="nav-collapse">
+                <ul class="nav">
+                  {% for link in linklists.main-menu.links %}
+                    {% capture child_list_handle %}{{ link.title | handle }}{% endcapture %}
+
+                    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                      <li class="dropdown" id="menu{{ forloop.index }}" {% if link.active %}class="active"{% endif %}{% if template contains 'product' and link.title == 'Shop' %}class="active"{% endif %}>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#menu{{ forloop.index }}">
+                          {{ link.title }}
+                          <b class="caret"></b>
+                        </a>
+
+                        {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                          <ul class="dropdown-menu">
+                            {% for l in linklists[child_list_handle].links %}
+                              <li><a href="{{ l.url }}">{{ l.title }}</a></li>
+                            {% endfor %}
+                          </ul>
+                        {% endif %}
+                      </li>
+
+                    {% else %}
+                      <li {% if link.active %}class="active"{% endif %}{% if template contains 'product' and link.title == 'Shop' %}class="active"{% endif %}>
+                        <a href="{{ link.url }}">{{ link.title }}</a>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+
+                <!-- <form class="navbar-search" action="/search" method="get">
+                  {% assign col = settings.typeahead_collection %}
+                  <input id="search-input" name="q" type="text" class="search-query" placeholder="Search" data-provide="typeahead" data-source="[{% for product in collections[settings.typeahead_collection].products %}{{ product.title | append: "&quot;" | prepend: "&quot;" }}{% unless forloop.last %},{% endunless %}{% endfor %}]">
+                </form> -->
+              </div><!-- /.nav-collapse -->
+            </div><!-- /.container -->
+          </div><!-- /.navbar-inner -->
+        </div><!-- /.navbar -->
+      </header><!-- /#header -->
+
+      <div id="content">
+        <div class="container">
+          {% if template == 'list-collections' %}
+            {% include 'collection-listing' %}
+          {% else %}
+            {{ content_for_layout }}
+          {% endif %}
+        </div><!-- /.container -->
+      </div><!-- /#content -->
+
+      <footer id="footer">
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <p>&copy; {{ shop.name }}</p>
+            </div><!-- /.span6 -->
+
+            <div class="span6">
+              <form action="http://blackanchorworkshop.us6.list-manage.com/subscribe/post?u=8b125004e897ae2aab6e0f40b&amp;id=76f1bf63fd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="pull-right" target="_blank" novalidate>
+                <div class="control-group input-append">
+                  <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Sign up for our mailing list!" required>
+                  <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-inverse">
+                    <i class="icon-chevron-right"></i>
+                  </button>
+                </div>
+              </form>
+            </div><!-- /.span6 -->
+          </div><!-- /.row -->
+        </div><!-- /.container -->
+      </footer><!-- /#footer -->
+    </div><!-- /#wrap -->
+
+    <!-- <div id="notice">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <p>
+              Due to high demand, please allow up to 2-3 weeks for processing and delivery.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+    <![endif]-->
+
+    {{ 'bootstrap.js' | asset_url | script_tag }}
+
+    <div id="fb-root"></div>
+    <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '889936827726380',
+        xfbml      : true,
+        version    : 'v2.3'
+      });
+    };
+
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+    <script>
+      !function(d,s,id) {
+        var js,fjs=d.getElementsByTagName(s)[0];
+        if(!d.getElementById(id)) {
+          js = d.createElement(s);
+          js.id = id;
+          js.src = 'https://platform.twitter.com/widgets.js';
+          fjs.parentNode.insertBefore(js,fjs);
+        }
+      }(document, 'script', 'twitter-wjs');
+    </script>
+
+    <script type="text/javascript">
+      (function(d){
+        var f = d.getElementsByTagName('SCRIPT')[0], p = d.createElement('SCRIPT');
+        p.type = 'text/javascript';
+        p.async = true;
+        p.src = '//assets.pinterest.com/js/pinit.js';
+        f.parentNode.insertBefore(p, f);
+      }(document));
+    </script>
+
+  <!-- AddShoppers Tracking Code Start -->
+  <script type="text/javascript">
+    AddShoppersTracking = {
+      image: '' // add URL for custom product image (RECOMMENDED if not using Product Schema)
+    }
+    var js = document.createElement('script'); js.type = 'text/javascript'; js.async = true; js.id = 'AddShoppers';
+    js.src = ('https:' == document.location.protocol ? 'https://shop.pe' : 'http://cdn.shop.pe') + '/widget/widget_async.js#546e024ba38764546c6f6007';
+    document.getElementsByTagName("head")[0].appendChild(js);
+  </script>
+  <!-- AddShoppers Tracking Code End -->
+
+    <!--AdRoll Start-->
+    <script type="text/javascript">
+    adroll_adv_id = "MNPANDC3YZFOPCVZKZFWN4";
+    adroll_pix_id = "VTBEO5SIJNAA3NHK6PNEMS";
+    (function () {
+      var oldonload = window.onload;
+      window.onload = function(){
+         __adroll_loaded=true;
+      var scr = document.createElement("script");
+         var host = (("https:" == document.location.protocol) ? "https://s.adroll.com" : "http://a.adroll.com");
+         scr.setAttribute('async', 'true');
+         scr.type = "text/javascript";
+         scr.src = host + "/j/roundtrip.js";
+         ((document.getElementsByTagName('head') || [null])[0] ||
+        document.getElementsByTagName('script')[0].parentNode).appendChild(scr);
+         if(oldonload){oldonload()}};
+    }());
+  </script>
+    <!--AdRoll End-->
+
+  <script type="text/javascript" charset="utf-8">
+    var shappify_customer_tags ={{ customer.tags|json }}
+  </script>
+
+</body>
+</html>
