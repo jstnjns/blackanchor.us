@@ -1,17 +1,21 @@
 <footer id="footer">
   <div class="container">
     <div class="row">
-      <div class="span6">
+      <div class="col-sm-8">
         <p>&copy; {{ shop.name }}</p>
-      </div><!-- /.span6 -->
+      </div>
 
-      <div class="span6">
+      <div class="col-sm-4">
         <form action="http://blackanchorworkshop.us6.list-manage.com/subscribe/post?u=8b125004e897ae2aab6e0f40b&amp;id=76f1bf63fd" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="pull-right" target="_blank" novalidate>
-          <div class="control-group input-append">
-            <input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Sign up for our mailing list!" required>
-            <button type="submit" name="subscribe" id="mc-embedded-subscribe" class="btn btn-inverse">
-              <i class="icon-chevron-right"></i>
-            </button>
+          <div class="input-group">
+            <input type="email" name="EMAIL" class="form-control"
+              placeholder="Sign up for our mailing list!" required>
+
+            <span class="input-group-btn">
+              <button type="submit" name="subscribe" class="btn btn-primary">
+                Submit
+              </button>
+            </span>
           </div>
         </form>
       </div><!-- /.span6 -->

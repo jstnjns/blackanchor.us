@@ -1,241 +1,135 @@
-<!-- Bold Apps: Customer Pricing -->
-{% include 'shappify-csp' %}
-
-<!-- csp tag-HIDE --> 
-{% assign csp_visible = true %}
-{% for product_tag in product.tags %}
-{% if csp_visible == true %}
-{% capture last_tag_piece %}{{ product_tag | split: '-' | last }}{% endcapture %}
-{% if last_tag_piece == 'HIDE' %}
-{% capture first_tag_piece %}{{ product_tag | split: '-' | first }}{% endcapture %}
- 
-{% if first_tag_piece == 'default' %}
-{% assign csp_visible = false %}
-{% assign csp_tag_group = shop.metafields.shop_csp_tag_group.shop_csp_tag | split: ',' %}
-{% for csp_tag in csp_tag_group %}
-{% if customer.tags contains csp_tag %}
-{% assign csp_visible = true %}
-{% endif %}
-{% endfor %}
-{% else %}
-{% if customer.tags contains first_tag_piece %}
-{% assign csp_visible = false %}
-{% endif %}
-{% endif %}
-{% endif %}
-{% endif %}
-{% endfor %}
- 
- 
-{% if csp_visible == false %} 
-Product is not available
-{% else %}
-
-<div class="row">
-  <div class="span8">
-    <div id="product-images">
-      <ol class="slides unstyled">
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <div id="product-images" class="row">
         {% if product.images.size > 1 %}
         {% for image in product.images %}
-        <li class="item">
+        <div class="col-sm-12">
           <figure class="product-image image">
-              <img src="{{ image | product_img_url: 'original' }}" data-orig="{{ image | product_img_url: 'original' }}" />
+            <img src="{{ image | product_img_url: 'original' }}"
+              class="img-responsive"
+              data-orig="{{ image | product_img_url: 'original' }}" />
           </figure>
-        </li>
+        </div>
         {% endfor %}
         {% endif %}
-      </ol>
-    </div>
-
-    {% if product.images.size > 1 %}
-    <div id="product-thumbnails" class="row hidden-phone">
-      {% for image in product.images %}
-      <div class="span1">
-        <figure class="product-thumbnail image">
-          <a href="{{ image | product_img_url: 'original' }}">
-            <img src="{{ image | product_img_url: 'medium' }}" data-orig="{{ image | product_img_url: 'original' }}" />
-          </a>
-        </figure>
       </div>
-      {% endfor %}
-    </div>
-    {% endif %}
-  </div>
 
-  <div class="span4">
-    <section>
-      <header>
-        <h1 class="title">
-          {{ product.title }}
-          
-{% assign tag_price = 0 %}
-{% assign tag = 'default' %}
-{% if customer.tags.size > 0 %}
-{% for cust_tag in customer.tags %}
-{% if product.metafields.shappify_csp[cust_tag] %}
-{% assign tag = cust_tag %}
-{% endif %}
-{% endfor %}
-{% endif %}
-{% if product.metafields.shappify_csp[tag] %}
-{% assign tag_price = 1 %}
-{% endif %}
-{% if tag_price != 1 %}          
-          
-          <span id="price-field" class="label label-inverse">
-            {{ product.variants.first.price | money_with_currency }}
-            {% if product.price_min < product.compare_at_price_min %}
-              <s>{{ product.compare_at_price_min | money }}</s>
-            {% endif %}
-          </span>
-          
-{% else %}
-{% capture attribute_price_min %}{{tag}}_raw_lownum{% endcapture %}
-{% capture attribute_price_max %}{{tag}}_price_high{% endcapture %}
-{% capture attribute_price %}{{tag}}{% endcapture %}
- 
-          <br>
- 		  <span id="price-field" class="label label-inverse">
-            {{ product.metafields.shappify_csp[attribute_price] }}
-            {% if product.price_min < product.compare_at_price_min %}
-              <s>{{ product.compare_at_price_min | money }}</s>
-            {% endif %}
-          </span>
-          
-          {% if tag != 'default' %}<span id="price-field" class="label label-inverse">Reg. Price: {{ product.metafields.shappify_csp['default'] }}</span>{% endif %}
-          
-{% endif %}          
-          
-        </h1>
-      </header>
-
-      <div class="content">
-
-        <hr>
-        
-        <form action="/cart/add" method="post" class="product-form">
-          {% if product.options.size > 1 %}
-         
-          <div class="control-group">
-            <div class="controls">
-              <select name="id" id="product-select">
-                
-{% for variant in product.variants %}
-{% include 'shappify-variant-is-csp' %}                
-{% if csp_variant == 1 %}
-                  
-                <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
-{% endif %}
-                
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-
-          {% elsif product.options.size == 1 and shappify_csp_options_count > 1 %}
-           
-          <div class="control-group">
-            <label for="product-select" class="control-label">{{ product.options[0] }}</label>
-            <div class="controls">
-              <select name="id" id="product-select">
-{% for variant in product.variants %}
-{% include 'shappify-variant-is-csp' %}
-{% if csp_variant == 1 %}
-                  
-                <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
-                
-{% endif %}
-                
-			{% endfor %}
-
-              </select>
-            </div>
-          </div>
-
-          {% else %}
-
-          <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-      
-          {% endif %}
-          
-          {% unless product.available %}
-
-          <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
-
-          {% else %}
-
-          <div id="purchase-control-group" class="control-group">
-            <button type="submit" id="purchase" class="btn btn-inverse btn-large">Purchase</button>
-          </div>
-
-          {% endunless %}
-          
-        </form>
-      
-        <hr>
-
-        <div id="product-description">
-          {{ product.description }}
+      {% if product.images.size > 1 %}
+      <div id="product-thumbnails" class="row hidden-xs">
+        {% for image in product.images %}
+        <div class="col-sm-3">
+          <figure class="product-thumbnail image">
+            <a href="{{ image | product_img_url: 'original' }}">
+              <img src="{{ image | product_img_url: 'medium' }}"
+                class="img-responsive"
+                data-orig="{{ image | product_img_url: 'original' }}" />
+            </a>
+          </figure>
         </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
 
-        <hr>
-        
-        <div class="share-buttons share-buttons-panel" data-style="big" data-counter="true" data-oauth="true" data-hover="false" data-promo-callout="left" data-buttons="pinterest,facebook,twitter,google"></div>
-        
-        <!--
-        
-        <hr>
+    <div class="col-sm-6">
+      <section>
+        <header>
+          <h1 class="title">
+            {{ product.title }}
 
-        <a href="https://twitter.com/share" class="twitter-share-button" data-via="blkancr" data-hashtags="heritagelifestle">Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        <a href="https://twitter.com/blkancr" class="twitter-follow-button" data-show-count="false">Follow @blkancr</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        
-        <div
-  			class="fb-like"
-  			data-share="true"
-  			data-width="450"
-  			data-show-faces="true">
-		</div>   
-        
-        <a href="//www.pinterest.com/pin/create/button/" data-pin-do="buttonBookmark"  data-pin-color="red"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_red_20.png" /></a>
-        
-        -->
-        
-<script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+            <span id="price-field" class="label label-inverse">
+              {{ product.variants.first.price | money_with_currency }}
+              {% if product.price_min < product.compare_at_price_min %}
+                <s>{{ product.compare_at_price_min | money }}</s>
+              {% endif %}
+            </span>
+          </h1>
+        </header>
 
-        <nav class="social hide">
-          <ul class="unordered inline">
-            <!-- Facebook -->
-            <li>
-              <a href="http://www.facebook.com/sharer.php?u={{ product.url }}" class="btn btn-primary">
-                <i class="icon-facebook"></i> <span class="hidden-phone">Share</span>
-              </a>
-            </li>
-            <!-- Twitter -->
-            <li>
-              <a href="http://twitter.com/share?text={{ product.title }}&amp;url={{ product.url }}" class="btn btn-info">
-                <i class="icon-twitter"></i> <span class="hidden-phone">Tweet</span>
-              </a>
-            </li>
-            <!-- Pinterest -->
-            <li>
-              <a href="//pinterest.com/pin/create/button/?url={{ product.url }}&amp;media={{ product.featured_image | product_img_url: 'large' }}&amp;description={{ product.title }}" class="btn btn-danger">
-                <i class="icon-pinterest"></i> <span class="hidden-phone">Pin</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div><!-- /.content -->
-    </section>
-  </div><!-- /.span6 -->
-</div><!-- /.row -->
+        <div class="content">
 
-{% include 'linkcious' %}
+          <hr>
 
-<div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+          <form action="/cart/add" method="post" class="product-form">
+            {% if product.options.size > 1 %}
 
-<!-- <script type="text/javascript">var disqus_identifier = 'product-{{ product.handle }}';</script>
-<script src="https://black-anchor-workshop.myshopify.com/tools/disqus/disqus_code.php?n=blackanchor"></script>
--->
+            <div class="control-group">
+              <div class="controls">
+                <select name="id" id="product-select">
+                  <option value="{{ variant.id }}">
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+
+            {% endif %}
+
+            {% unless product.available %}
+
+            <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
+
+            {% else %}
+
+            <div id="purchase-control-group" class="control-group">
+              <button type="submit" class="btn btn-primary btn-lg btn-block">
+                Purchase
+              </button>
+            </div>
+
+            {% endunless %}
+
+          </form>
+
+          <hr>
+
+          <div id="product-description">
+            {{ product.description }}
+          </div>
+
+          <hr>
+
+          <div class="share-buttons share-buttons-panel" data-style="big" data-counter="true" data-oauth="true" data-hover="false" data-promo-callout="left" data-buttons="pinterest,facebook,twitter,google"></div>
+
+
+          <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"
+            async defer ></script>
+
+          <nav class="social hide">
+            <ul class="unordered inline">
+              <!-- Facebook -->
+              <li>
+                <a href="http://www.facebook.com/sharer.php?u={{ product.url }}" class="btn btn-primary">
+                  <i class="icon-facebook"></i> <span class="hidden-phone">Share</span>
+                </a>
+              </li>
+              <!-- Twitter -->
+              <li>
+                <a href="http://twitter.com/share?text={{ product.title }}&amp;url={{ product.url }}" class="btn btn-info">
+                  <i class="icon-twitter"></i> <span class="hidden-phone">Tweet</span>
+                </a>
+              </li>
+              <!-- Pinterest -->
+              <li>
+                <a href="//pinterest.com/pin/create/button/?url={{ product.url }}&amp;media={{ product.featured_image | product_img_url: 'large' }}&amp;description={{ product.title }}" class="btn btn-danger">
+                  <i class="icon-pinterest"></i> <span class="hidden-phone">Pin</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div><!-- /.content -->
+      </section>
+    </div><!-- /.span6 -->
+  </div><!-- /.row -->
+
+  <div id="shopify-product-reviews" data-id="{{product.id}}">
+    {{ product.metafields.spr.reviews }}
+  </div>
+</div><!-- .container -->
+
 
 {% if collection %}
   {% if collection.previous_product %}
@@ -261,31 +155,8 @@ Product is not available
 <img itemprop="image" src="{{ product.featured_image | product_img_url: 'compact' }}"/>
 <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 
-{% assign tag_price = 0 %}
-{% assign tag = 'default' %}
-{% if customer.tags.size > 0 %}
-{% for cust_tag in customer.tags %}
-{% if product.metafields.shappify_csp[cust_tag] %}
-{% assign tag = cust_tag %}
-{% endif %}
-{% endfor %}
-{% endif %}
-{% if product.metafields.shappify_csp[tag] %}
-{% assign tag_price = 1 %}
-{% endif %}
-{% if tag_price != 1 %}  
-  
 <span itemprop="price">{{ product.price | money }}</span>
-  
-{% else %}
-{% capture attribute_price_min %}{{tag}}_raw_lownum{% endcapture %}
-{% capture attribute_price_max %}{{tag}}_price_high{% endcapture %}
-{% capture attribute_price %}{{tag}}{% endcapture %}
- 
-<span itemprop="price">{{ product.metafields.shappify_csp[attribute_price] }}</span>
- 
-{% endif %}  
-  
+
 {% if product.available %}
 <link itemprop="availability" href="http://schema.org/InStock">In Stock</link>
 {% else %}
@@ -294,6 +165,3 @@ Product is not available
 </div>
 </div>
 <!-- AddShoppers Product Schema End -->
-
-
-{% endif %}

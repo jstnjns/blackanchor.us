@@ -1,31 +1,38 @@
-{% paginate collection.products by 100 %}
+<div class="container">
 
-  {% if collection.products.size == 0 %}
+  {% paginate collection.products by 100 %}
 
-    <p>No products found in this collection.</p>
+    {% if collection.products.size == 0 %}
 
-  {% else %}
-
-    {% if collection.handle == 'all' %}
-
-      {% for collection in collections %}
-        {% if collection.handle != 'all' and collection.handle != 'featured' and collection.handle != 'hidden' %}
-
-          {% include 'products-listing' %}
-
-          {% unless forloop.last %}
-            <hr>
-          {% endunless %}
-        {% endif %}
-      {% endfor %}
+    <!-- No Products -->
+    <div class="well">
+      <p>No products found in this collection.</p>
+    </div>
 
     {% else %}
 
-      {% include 'products-listing' %}
+      {% if collection.handle == 'all' %}
+
+        {% for collection in collections %}
+          {% if collection.handle != 'all' and
+            collection.handle != 'featured' and
+            collection.handle != 'hidden' %}
+
+            {% include 'products-listing' %}
+            {% unless forloop.last %}<hr>{% endunless %}
+
+          {% endif %}
+        {% endfor %}
+
+      {% else %}
+
+        {% include 'products-listing' %}
+
+      {% endif %}
 
     {% endif %}
 
-  {% endif %}
+    {% include 'pagination' %}
+  {% endpaginate %}
 
-  {% include 'pagination' %}
-{% endpaginate %}
+</div>

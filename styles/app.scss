@@ -1,3 +1,5 @@
+$brand-primary: #357b9c;
+
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
 
@@ -8,12 +10,13 @@
   $header-height: 50px;
 
   body {
-    padding-top: $dashboard-height + $header-height;
+    padding-top: $dashboard-height + $header-height + ($grid-gutter-width / 2);
   }
 
   #dashboard .navbar-nav > li > a {
-    padding-top: ($dashboard-height - $line-height-computed) / 2;
-    padding-bottom: ($dashboard-height - $line-height-computed) / 2;
+    padding:
+      (($dashboard-height - $line-height-computed) / 2)
+      ($navbar-padding-horizontal / 2);
   }
 
   #header .navbar-fixed-top {
