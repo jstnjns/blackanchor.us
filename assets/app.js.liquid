@@ -1,0 +1,21 @@
+(function() {
+  angular.module('ba', ['ba.controllers']).config(function($interpolateProvider) {
+    return $interpolateProvider.startSymbol('[[').endSymbol(']]');
+  });
+
+  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product']);
+
+  angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope) {});
+
+  angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce) {
+    $scope.product = window.product;
+    $scope.preview = $scope.product.images[0];
+    return $http.get('/pages/products-backpack').then(function(response) {
+      var content, trusted;
+      content = $(response.data).find('#content .container').html();
+      trusted = $sce.trustAsHtml(content);
+      return $scope.extra = trusted;
+    });
+  });
+
+}).call(this);
