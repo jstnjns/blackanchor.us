@@ -1,4 +1,6 @@
 $brand-primary: #357b9c;
+$black: #000;
+$white: #fff;
 
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
@@ -11,7 +13,7 @@ $brand-primary: #357b9c;
   $header-height: 50px;
 
   body {
-    padding-top: $dashboard-height + $header-height + ($grid-gutter-width / 2);
+    padding-top: $dashboard-height + $header-height;
   }
 
   #dashboard .navbar-nav > li > a {
@@ -25,5 +27,19 @@ $brand-primary: #357b9c;
   }
 }
 
+.section {
+  padding: ($line-height-computed * 2) 0 ($line-height-computed * 3);
+}
 
+.section-dark {
+  background: $gray-dark;
+  color: $gray-lighter;
 
+  hr {
+    border-color: $gray;
+  }
+}
+
+.section-light {
+  background: $gray-lighter;
+}

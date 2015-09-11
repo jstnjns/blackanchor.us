@@ -6067,8 +6067,20 @@ button.close {
 
 @media (min-width: 768px) {
   body {
-    padding-top: 101px; }
+    padding-top: 86px; }
   #dashboard .navbar-nav > li > a {
     padding: 8px 7.5px; }
   #header .navbar-fixed-top {
     top: 36px; } }
+
+.section {
+  padding: 40px 0 60px; }
+
+.section-dark {
+  background: #333333;
+  color: #eeeeee; }
+  .section-dark hr {
+    border-color: #555555; }
+
+.section-light {
+  background: #eeeeee; }

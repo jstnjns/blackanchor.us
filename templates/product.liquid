@@ -1,167 +1,155 @@
-<div class="container" ng-controller="productCtrl">
-  <div class="row">
-    <div class="col-sm-6">
-      <div id="product-images" class="row">
-        {% if product.images.size > 1 %}
-        {% for image in product.images %}
-        <div class="col-sm-12">
-          <figure class="product-image image">
-            <img src="{{ image | product_img_url: 'original' }}"
-              class="img-responsive"
-              data-orig="{{ image | product_img_url: 'original' }}" />
-          </figure>
-        </div>
-        {% endfor %}
-        {% endif %}
-      </div>
-
-      {% if product.images.size > 1 %}
-      <div id="product-thumbnails" class="row hidden-xs">
-        {% for image in product.images %}
-        <div class="col-sm-3">
-          <figure class="product-thumbnail image">
-            <a href="{{ image | product_img_url: 'original' }}">
-              <img src="{{ image | product_img_url: 'medium' }}"
-                class="img-responsive"
-                data-orig="{{ image | product_img_url: 'original' }}" />
-            </a>
-          </figure>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
-    </div>
-
-    <div class="col-sm-6">
-      <section>
-        <header>
-          <h1 class="title">
-            {{ product.title }}
-
-            <span id="price-field" class="label label-inverse">
-              {{ product.variants.first.price | money_with_currency }}
-              {% if product.price_min < product.compare_at_price_min %}
-                <s>{{ product.compare_at_price_min | money }}</s>
-              {% endif %}
-            </span>
-          </h1>
-        </header>
-
-        <div class="content">
-
-          <hr>
-
-          <form action="/cart/add" method="post" class="product-form">
-            {% if product.options.size > 1 %}
-
-            <div class="control-group">
-              <div class="controls">
-                <select name="id" id="product-select">
-                  <option value="{{ variant.id }}">
-                    {{ variant.title }} - {{ variant.price | money }}
-                  </option>
-                </select>
-              </div>
+<div ng-controller="productCtrl">
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6">
+          <div id="product-images" class="row">
+            <div class="col-sm-12">
+              <figure class="product-image image">
+                <img class="img-responsive"
+                  ng-src="[[preview]]">
+              </figure>
             </div>
-
-            <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
-
-            {% endif %}
-
-            {% unless product.available %}
-
-            <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
-
-            {% else %}
-
-            <div id="purchase-control-group" class="control-group">
-              <button type="submit" class="btn btn-primary btn-lg btn-block">
-                Purchase
-              </button>
-            </div>
-
-            {% endunless %}
-
-          </form>
-
-          <hr>
-
-          <div id="product-description">
-            {{ product.description }}
           </div>
 
-          <hr>
+          {% if product.images.size > 1 %}
+          <div id="product-thumbnails" class="row hidden-xs">
+            {% for image in product.images %}
+            <div class="col-sm-3">
+              <figure class="product-thumbnail image"
+                ng-click="preview = '{{ image | product_img_url: 'original' }}'">
+                <img src="{{ image | product_img_url: 'medium' }}"
+                  class="img-responsive"
+                  data-orig="{{ image | product_img_url: 'original' }}" />
+              </figure>
+            </div>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
 
-          <div class="share-buttons share-buttons-panel" data-style="big" data-counter="true" data-oauth="true" data-hover="false" data-promo-callout="left" data-buttons="pinterest,facebook,twitter,google"></div>
+        <div class="col-sm-6">
+          <section>
+            <header>
+              <h1 class="title">
+                {{ product.title }}
 
+                <span id="price-field" class="label label-primary">
+                  {{ product.variants.first.price | money_with_currency }}
+                  {% if product.price_min < product.compare_at_price_min %}
+                    <s>{{ product.compare_at_price_min | money }}</s>
+                  {% endif %}
+                </span>
+              </h1>
+            </header>
 
-          <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"
-            async defer ></script>
+            <div class="content">
 
-          <nav class="social hide">
-            <ul class="unordered inline">
-              <!-- Facebook -->
-              <li>
-                <a href="http://www.facebook.com/sharer.php?u={{ product.url }}" class="btn btn-primary">
-                  <i class="icon-facebook"></i> <span class="hidden-phone">Share</span>
-                </a>
-              </li>
-              <!-- Twitter -->
-              <li>
-                <a href="http://twitter.com/share?text={{ product.title }}&amp;url={{ product.url }}" class="btn btn-info">
-                  <i class="icon-twitter"></i> <span class="hidden-phone">Tweet</span>
-                </a>
-              </li>
-              <!-- Pinterest -->
-              <li>
-                <a href="//pinterest.com/pin/create/button/?url={{ product.url }}&amp;media={{ product.featured_image | product_img_url: 'large' }}&amp;description={{ product.title }}" class="btn btn-danger">
-                  <i class="icon-pinterest"></i> <span class="hidden-phone">Pin</span>
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div><!-- /.content -->
-      </section>
-    </div><!-- /.span6 -->
-  </div><!-- /.row -->
+              <hr>
 
-  <div id="shopify-product-reviews" data-id="{{product.id}}">
-    {{ product.metafields.spr.reviews }}
+              <form action="/cart/add" method="post" class="product-form">
+                {% if product.options.size > 1 %}
+
+                <div class="control-group">
+                  <div class="controls">
+                    <select name="id" id="product-select">
+                      <option value="{{ variant.id }}">
+                        {{ variant.title }} - {{ variant.price | money }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+
+                {% endif %}
+
+                {% unless product.available %}
+
+                <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
+
+                {% else %}
+
+                <div id="purchase-control-group" class="control-group">
+                  <button type="submit" class="btn btn-primary btn-lg btn-block">
+                    Purchase
+                  </button>
+                </div>
+
+                {% endunless %}
+
+              </form>
+
+              <hr>
+
+              <div id="product-description">
+                {{ product.description }}
+              </div>
+
+              <hr>
+
+              <div class="share-buttons share-buttons-panel" data-style="big" data-counter="true" data-oauth="true" data-hover="false" data-promo-callout="left" data-buttons="pinterest,facebook,twitter,google"></div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
-</div><!-- .container -->
 
+  <div class="section section-dark">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+          <h3 class="text-center">Details &amp; Stuffs</h3>
+          <hr>
+          <p class="text-center">Here's some info about a product or whatever.  Hope you like it, playa.</p>
+        </div>
+      </div>
 
-{% if collection %}
-  {% if collection.previous_product %}
-    <span class="pull-left">
-      {{ '&larr; Previous product' | link_to: collection.previous_product }}
-    </span>
-  {% endif %}
-  {% if collection.next_product %}
-    <span class="pull-right">
-      {{ 'Next product &rarr;' | link_to: collection.next_product }}
-    </span>
-  {% endif %}
-{% endif %}
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-sm-4">
+          <img src="//cdn.shopify.com/s/files/1/0211/0380/products/Black-Anchor-Backpack-4_1024x1024.jpg?v=1435912397" class="img-responsive">
+        </div>
+
+        <div class="col-sm-4">
+          <img src="//cdn.shopify.com/s/files/1/0211/0380/products/Black-Anchor-Backpack-5_1024x1024.jpg?v=1435912397" class="img-responsive">
+        </div>
+
+        <div class="col-sm-4">
+          <img src="//cdn.shopify.com/s/files/1/0211/0380/products/Black-Anchor-Backpack-7_1024x1024.jpg?v=1435912397" class="img-responsive">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6">
+          <h3 class="text-center">Designed for comfort</h3>
+          <hr>
+          <p class="text-center">This stuff is super comfy. Comfy comfy all the way.</p>
+        </div>
+      </div>
+
+      <br>
+      <br>
+
+      <div class="row">
+        <div class="col-sm-offset-2 col-sm-8 text-center">
+          <img src="//cdn.shopify.com/s/files/1/0211/0380/products/Black-Anchor-Backpack-3_1024x1024.jpg?v=1435912397" class="img-responsive">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div ng-bind-html="extra"></div> -->
+</div>
+
 
 <script>
-  product = {{ product | json }}
+  window.product = {{ product | json }}
 </script>
-
-<!-- AddShoppers Product Schema Start -->
-<div itemscope itemtype="http://schema.org/Product" style="display: none">
-<span itemprop="name">{{ product.title }}</span>
-<span itemprop="description">{{ product.content }}</span>
-<img itemprop="image" src="{{ product.featured_image | product_img_url: 'compact' }}"/>
-<div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-
-<span itemprop="price">{{ product.price | money }}</span>
-
-{% if product.available %}
-<link itemprop="availability" href="http://schema.org/InStock">In Stock</link>
-{% else %}
-<link itemprop="availability" href="http://schema.org/OutOfStock">Out of Stock</link>
-{% endif %}
-</div>
-</div>
-<!-- AddShoppers Product Schema End -->
