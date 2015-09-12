@@ -1,38 +1,33 @@
 <div class="container">
+  <section>
+    <header class="text-center">
+      <h1>{{ collection.title }}</h2>
+      <p class="text-muted">{{ collection.description }}</p>
+    </header>
 
-  {% paginate collection.products by 100 %}
+    <hr>
 
-    {% if collection.products.size == 0 %}
+    <div class="content">
+      <div class="row">
+        {% for product in collection.products %}
+        <div class="col-sm-3 text-center">
+          <a href="{{ product.url }}">
+            <img class="img-responsive"
+              src="{{ product.featured_image | product_img_url: 'large'}}">
 
-    <!-- No Products -->
-    <div class="well">
-      <p>No products found in this collection.</p>
-    </div>
-
-    {% else %}
-
-      {% if collection.handle == 'all' %}
-
-        {% for collection in collections %}
-          {% if collection.handle != 'all' and
-            collection.handle != 'featured' and
-            collection.handle != 'hidden' %}
-
-            {% include 'products-listing' %}
-            {% unless forloop.last %}<hr>{% endunless %}
-
-          {% endif %}
+            <h3>{{product.title}}</h3>
+            <h6>
+              {% if product.price_max > product.price %}
+                {{ product.price_min | money }} -
+                {{ product.price_max | money }}
+              {% else %}
+                {{ product.price | money }}
+              {% endif %}
+            </h6>
+          </a>
+        </div>
         {% endfor %}
-
-      {% else %}
-
-        {% include 'products-listing' %}
-
-      {% endif %}
-
-    {% endif %}
-
-    {% include 'pagination' %}
-  {% endpaginate %}
-
+      </div>
+    </div>
+  </section>
 </div>
