@@ -7,15 +7,61 @@
 
   angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope) {});
 
+  Array.prototype.unique = function() {
+    var j, key, output, ref, results, value;
+    output = {};
+    for (key = j = 0, ref = this.length; 0 <= ref ? j < ref : j > ref; key = 0 <= ref ? ++j : --j) {
+      output[this[key]] = this[key];
+    }
+    results = [];
+    for (key in output) {
+      value = output[key];
+      results.push(value);
+    }
+    return results;
+  };
+
+  Array.prototype.like = function(other) {
+    var key, value;
+    if (other.length !== this.length) {
+      return false;
+    }
+    for (key in other) {
+      value = other[key];
+      if (this[key] !== value) {
+        return false;
+      }
+    }
+    return true;
+  };
+
   angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce) {
+    var init, onOptionsChange, variantFor;
     $scope.product = window.product;
-    $scope.preview = $scope.product.images[0];
-    return $http.get('/pages/products-backpack').then(function(response) {
-      var content, trusted;
-      content = $(response.data).find('#content .container').html();
-      trusted = $sce.trustAsHtml(content);
-      return $scope.extra = trusted;
-    });
+    $scope.variant = window.variant;
+    $scope.options = angular.copy($scope.variant.options);
+    $scope.variationsFor = function(option) {
+      var i, variations;
+      i = $scope.product.options.indexOf(option);
+      variations = $scope.product.variants.map(function(variant) {
+        return variant.options[i];
+      });
+      return variations.unique();
+    };
+    init = function() {
+      return $scope.$watch('options', onOptionsChange, true);
+    };
+    onOptionsChange = function(newOptions) {
+      return $scope.variant = variantFor(newOptions);
+    };
+    variantFor = function(options) {
+      var variants;
+      variants = $scope.product.variants.filter(function(variant) {
+        return variant.options.like(options);
+      });
+      return variants[0];
+    };
+    return init();
   });
 
 }).call(this);
