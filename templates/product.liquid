@@ -3,94 +3,74 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-6">
-          <div id="product-images" class="row">
+          <div class="row">
             <div class="col-sm-12">
               <figure class="product-image image">
                 <img class="img-responsive"
-                  ng-src="[[preview]]">
+                  ng-src="[[ variant.featured_image.src || product.featured_image ]]">
               </figure>
             </div>
           </div>
-
-          {% if product.images.size > 1 %}
-          <div id="product-thumbnails" class="row hidden-xs">
-            {% for image in product.images %}
-            <div class="col-sm-3">
-              <figure class="product-thumbnail image"
-                ng-click="preview = '{{ image | product_img_url: 'original' }}'">
-                <img src="{{ image | product_img_url: 'medium' }}"
-                  class="img-responsive"
-                  data-orig="{{ image | product_img_url: 'original' }}" />
-              </figure>
-            </div>
-            {% endfor %}
-          </div>
-          {% endif %}
         </div>
 
         <div class="col-sm-6">
           <section>
             <header>
-              <h1 class="title">
-                {{ product.title }}
-
-                <span id="price-field" class="label label-primary">
-                  {{ product.variants.first.price | money_with_currency }}
-                  {% if product.price_min < product.compare_at_price_min %}
-                    <s>{{ product.compare_at_price_min | money }}</s>
-                  {% endif %}
+              <h1>[[ product.title ]]</h1>
+              <h3>
+                <span ng-show="variant.price_varies">
+                  [[ variant.price_min/100 | currency ]] -
+                  [[ variant.price_max/100 | currency ]]
                 </span>
-              </h1>
+                <span ng-hide="variant.price_varies">
+                  [[ variant.price/100 | currency ]]
+                </span>
+              </h3>
             </header>
 
             <div class="content">
-
               <hr>
 
-              <form action="/cart/add" method="post" class="product-form">
-                {% if product.options.size > 1 %}
+              <form action="/cart/add" method="post">
+                <div class="row"
+                  ng-if="product.variants.length > 1">
+                  <div class="col-sm-6"
+                    ng-repeat="(i, option) in product.options">
+                    <div class="form-group">
+                      <label>[[option]]</label>
 
-                <div class="control-group">
-                  <div class="controls">
-                    <select name="id" id="product-select">
-                      <option value="{{ variant.id }}">
-                        {{ variant.title }} - {{ variant.price | money }}
-                      </option>
-                    </select>
+                      <select class="form-control input-lg"
+                        ng-options="v for v in variationsFor(option)"
+                        ng-model="options[i]"></select>
+                    </div>
                   </div>
                 </div>
 
-                <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+                {% if product.available %}
 
-                {% endif %}
+                <input type="hidden" value="[[variant.id]]">
 
-                {% unless product.available %}
-
-                <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                  Purchase
+                </button>
 
                 {% else %}
 
-                <div id="purchase-control-group" class="control-group">
-                  <button type="submit" class="btn btn-primary btn-lg btn-block">
-                    Purchase
-                  </button>
-                </div>
+                <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
 
-                {% endunless %}
+                {% endif %}
 
               </form>
-
-              <hr>
-
-              <div id="product-description">
-                {{ product.description }}
-              </div>
-
-              <hr>
-
-              <div class="share-buttons share-buttons-panel" data-style="big" data-counter="true" data-oauth="true" data-hover="false" data-promo-callout="left" data-buttons="pinterest,facebook,twitter,google"></div>
             </div>
           </section>
+        </div>
+      </div>
+
+      <hr>
+
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-10">
+          {{ product.description }}
         </div>
       </div>
     </div>
@@ -151,5 +131,6 @@
 
 
 <script>
-  window.product = {{ product | json }}
+  window.product = {{ product | json }};
+  window.variant = {{ product.selected_or_first_available_variant | json }};
 </script>
