@@ -1,54 +1,58 @@
 {% layout settings.customer_layout %}
 <div class="row">
-  <div class="span4 offset4 columns">
-      <section>
-        <header>
-          <h2 class="title">Login</h2>
-        </header>
+  <div class="col-sm-offset-4 col-sm-4">
 
-        {% form 'customer_login' %}
-        {% if form.errors %}
-        <div class="alert alert-error">
-          {% for field in form.errors %}
-            <div>{{form.errors.messages[field]}}</div>
-          {% endfor %}
+    <section ng-hide="reset">
+      <header class="text-center">
+        <h1>Login</h1>
+      </header>
+
+      {% form 'customer_login' %}
+      {% if form.errors %}
+      <div class="alert alert-error">
+        {% for field in form.errors %}
+          <div>{{form.errors.messages[field]}}</div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <div class="form">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="customer[email]" class="form-control">
+        </div>
+
+        {% if form.password_needed %}
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="customer[password]" class="form-control">
         </div>
         {% endif %}
 
-        <div class="form form-horizontal">
-          <div class="control-group">
-            <input type="email" value="" name="customer[email]" id="customer_email" class="input-block-level" placeholder="Email">
-          </div>
+        <button class="btn btn-primary btn-block" type="submit">
+          Sign in
+        </button>
 
-          {% if form.password_needed %}
-          <div class="control-group">
-            <input type="password" value="" name="customer[password]" id="customer_password" class="input-block-level" placeholder="Password">
-          </div>
-          {% endif %}
+        <hr>
+      </div>
 
-          <button class="btn btn-primary btn-block" type="submit">
-            Sign in
-          </button>
+      <p class="text-center">
+        <small>
+          <a ng-click="reset = true">
+            Forgot your password?
+          </a>
+        </small>
+      </p>
+      {% endform %}
+    </section>
 
-          <hr>
-        </div>
+    <section ng-show="reset">
+      <header class="text-center">
+        <h1>Reset Password</h1>
+      </header>
 
-        <p class="text-center">
-          <small>
-            <a href="#" onclick="showRecoverPasswordForm();return false;">
-              Forgot your password?
-            </a>
-          </small>
-        </p>
-        {% endform %}
-      </section>
-
-      <section id="recover-password" style='display:none'>
-        <header>
-          <h3 class="title">Password</h3>
-        </header>
-
-        <p class="note">
+      <div class="content">
+        <p class="text-muted">
           We will send you an email to reset your password.
         </p>
 
@@ -59,54 +63,46 @@
           </div>
           {% endif %}
 
-        <div class="form form-horizontal">
-          <div class="control-group">
-            <input type="email" value="" name="email" id="recover-email" class="input-block-level" placeholder="Email">
+        <div class="form">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" class="form-control">
           </div>
 
-          <div class="control-group">
-            <button class="btn btn-primary btn-block" type="submit">Submit</button>
-          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <button class="btn btn-primary btn-block" type="submit">
+                Submit
+              </button>
+            </div>
 
-          <div class="control-group">
-            <a class="btn btn-block" href="#" onclick="hideRecoverPasswordForm();return false;">
-              Cancel
-            </a>
+            <div class="col-sm-6">
+              <a class="btn btn-default btn-block"
+                ng-click="reset = false">
+                Cancel
+              </a>
+            </div>
           </div>
         </div>
         {% endform %}
-      </section>
+      </div>
+    </section>
 
-      {% if shop.checkout.guest_login %}
-      <section id="guest">
-        <header>
-          <h3 class="title">Guest Login</h3>
-        </header>
+    {% if shop.checkout.guest_login %}
+    <section>
+      <header class="text-center">
+        <h2>Guest Login</h2>
+      </header>
 
-        {% form 'guest_login' %}
-        <div class="control-group">
-          <button class="btn btn-primary" type="submit">
-            Continue as Guest
-          </button>
-        </div>
-        {% endform %}
-      </section>
-      {% endif %}
+      {% form 'guest_login' %}
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">
+          Continue as Guest
+        </button>
+      </div>
+      {% endform %}
+    </section>
+    {% endif %}
 
-    </div>
   </div>
 </div>
-
-<script type="text/javascript">
-  function showRecoverPasswordForm() {
-    document.getElementById('recover-password').style.display = 'block';
-    document.getElementById('customer').style.display='none';
-  }
-
-  function hideRecoverPasswordForm() {
-    document.getElementById('recover-password').style.display = 'none';
-    document.getElementById('customer').style.display = 'block';
-  }
-
-  if (window.location.hash == '#recover') { showRecoverPasswordForm() }
-</script>
