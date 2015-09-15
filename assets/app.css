@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700");
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -6059,8 +6060,26 @@ button.close {
   .hidden-print {
     display: none !important; } }
 
+body {
+  font-family: 'Open Sans', sans-serif; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300; }
+
 .ng-cloak {
   display: none; }
+
+[ng-click] {
+  cursor: pointer; }
+
+.flush {
+  margin: 0;
+  padding: 0; }
 
 #drawer {
   display: none; }
@@ -6071,7 +6090,9 @@ button.close {
   #dashboard .navbar-nav > li > a {
     padding: 8px 7.5px; }
   #header .navbar-fixed-top {
-    top: 36px; } }
+    top: 36px; }
+    #header .navbar-fixed-top .navbar-collapse {
+      max-height: none; } }
 
 .section {
   padding: 40px 0 60px; }

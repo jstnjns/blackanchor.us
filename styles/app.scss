@@ -2,9 +2,26 @@ $brand-primary: #357b9c;
 $black: #000;
 $white: #fff;
 
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700");
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 300;
+}
+
 .ng-cloak { display: none; }
+[ng-click] { cursor: pointer; }
+
+.flush { margin: 0; padding: 0; }
 
 #drawer { display: none; }
 
@@ -24,6 +41,10 @@ $white: #fff;
 
   #header .navbar-fixed-top {
     top: $dashboard-height;
+
+    .navbar-collapse {
+      max-height: none;
+    }
   }
 }
 
