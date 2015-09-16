@@ -16,11 +16,16 @@ angular
     $scope.variant = window.variant
     $scope.options = angular.copy $scope.variant.options
 
+
     $scope.variationsFor = (option) ->
       i = $scope.product.options.indexOf option
       variations = $scope.product.variants.map (variant) ->
         variant.options[i]
       variations.unique()
+
+
+    $scope.addToCart =
+      console.log arguments
 
 
     init = ->
