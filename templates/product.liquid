@@ -1,8 +1,8 @@
 <div ng-controller="productCtrl">
   <div class="section">
     <div class="container">
-      <div class="row">
-        <div class="col-sm-6">
+      <div class="row row-centered">
+        <div class="col-sm-8">
           <div class="row">
             <div class="col-sm-12">
               <figure class="product-image image">
@@ -13,11 +13,11 @@
           </div>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4 text-center">
           <section>
             <header>
               <h1>[[ product.title ]]</h1>
-              <h3>
+              <h3 class="text-muted">
                 <span ng-show="variant.price_varies">
                   [[ variant.price_min/100 | currency ]] -
                   [[ variant.price_max/100 | currency ]]
@@ -31,32 +31,36 @@
             <div class="content">
               <hr>
 
-              <form action="/cart/add" method="post">
-                <div class="row"
-                  ng-if="product.variants.length > 1">
-                  <div class="col-sm-6"
+              <form action="/cart/add" method="post"
+                ng-submit="addToCart(variant)">
+                <div ng-if="product.variants.length > 1">
+                  <div class="form-group"
                     ng-repeat="(i, option) in product.options">
-                    <div class="form-group">
-                      <label>[[option]]</label>
+                    <label>[[option]]</label>
 
-                      <select class="form-control input-lg"
-                        ng-options="v for v in variationsFor(option)"
-                        ng-model="options[i]"></select>
-                    </div>
+                    <select class="form-control input-lg"
+                      ng-options="v for v in variationsFor(option)"
+                      ng-model="options[i]"></select>
                   </div>
                 </div>
 
                 {% if product.available %}
 
-                <input type="hidden" value="[[variant.id]]">
+                <input type="hidden" name="id" value="[[variant.id]]">
 
-                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                <button type="submit" class="btn btn-primary btn-outline btn-rounded btn-lg btn-block">
                   Purchase
                 </button>
 
                 {% else %}
 
-                <p class="text-warning">The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch email your request to <a href="mailto:stephen@blkancr.co?Subject=product%20reservation" target="_top">stephen@blkancr.co</a></p>
+                <p class="text-warning">
+                  The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch subscribe to the newsletter.
+                </p>
+
+                <hr>
+
+                {% include 'newsletter' %}
 
                 {% endif %}
 

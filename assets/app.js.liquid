@@ -3,7 +3,14 @@
     return $interpolateProvider.startSymbol('[[').endSymbol(']]');
   });
 
-  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product']);
+  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
+
+  angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, $sce) {
+    var init;
+    $scope.cart = window.cart;
+    init = function() {};
+    return init();
+  });
 
   angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope) {});
 
@@ -48,6 +55,7 @@
       });
       return variations.unique();
     };
+    $scope.addToCart = console.log(arguments);
     init = function() {
       return $scope.$watch('options', onOptionsChange, true);
     };

@@ -4,6 +4,7 @@ $white: #fff;
 
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700");
 @import "../node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "../node_modules/font-awesome/scss/font-awesome";
 
 body {
   font-family: 'Open Sans', sans-serif;
@@ -18,10 +19,64 @@ h6 {
   font-weight: 300;
 }
 
+a,
+a:hover,
+a:focus,
+a:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
 .ng-cloak { display: none; }
 [ng-click] { cursor: pointer; }
 
 .flush { margin: 0; padding: 0; }
+
+.row-centered {
+  display: flex;
+  align-items: center;
+}
+
+.btn-outline,
+.btn-clear {
+  background-color: transparent !important;
+  box-shadow: none;
+
+  &:hover {
+    background-color: transparent !important;
+    box-shadow: none;
+  }
+
+  &.btn-primary { color: $btn-primary-bg; }
+  &.btn-success { color: $btn-success-bg; }
+  &.btn-info { color: $btn-info-bg; }
+  &.btn-warning { color: $btn-warning-bg; }
+  &.btn-danger { color: $btn-danger-bg; }
+}
+
+.btn-clear {
+  border-color: transparent !important;
+
+  &:hover {
+    border-color: transparent !important;
+  }
+}
+
+.btn-rounded {
+  border-radius: $line-height-base + $padding-base-vertical * 2 + 2;
+
+  &.btn-lg {
+    border-radius: $line-height-large + $padding-large-vertical * 2 + 2;
+  }
+
+  &.btn-sm {
+    border-radius: $line-height-small + $padding-small-vertical * 2 + 2;
+  }
+
+  &.btn-xs {
+    border-radius: $line-height-small + $padding-xs-vertical * 2 + 2;
+  }
+}
 
 #drawer { display: none; }
 
@@ -63,4 +118,13 @@ h6 {
 
 .section-light {
   background: $gray-lighter;
+}
+
+
+.jumbotron {
+  background: $gray-darker url('{{"shop.jpg" | asset_url}}') center;
+  // background-attachment: fixed;
+  background-size: cover;
+
+  height: 350px;
 }
