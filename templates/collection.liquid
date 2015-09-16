@@ -16,14 +16,14 @@
               src="{{ product.featured_image | product_img_url: 'large'}}">
 
             <h3>{{product.title}}</h3>
-            <h6>
+            <h5 class="text-muted">
               {% if product.price_max > product.price %}
                 {{ product.price_min | money }} -
                 {{ product.price_max | money }}
               {% else %}
                 {{ product.price | money }}
               {% endif %}
-            </h6>
+            </h5>
           </a>
         </div>
         {% endfor %}
