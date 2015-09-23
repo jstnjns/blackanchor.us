@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,300,700");
+@import url("https://fonts.googleapis.com/css?family=Lato:300,400,700");
 /*!
  * Bootstrap v3.3.5 (http://getbootstrap.com)
  * Copyright 2011-2015 Twitter, Inc.
@@ -1058,7 +1058,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.42857;
-  color: #333333;
+  color: #666;
   background-color: #fff; }
 
 input,
@@ -1144,7 +1144,7 @@ h1, h2, h3, h4, h5, h6,
   font-family: inherit;
   font-weight: 500;
   line-height: 1.1;
-  color: inherit; }
+  color: #333; }
   h1 small,
   h1 .small, h2 small,
   h2 .small, h3 small,
@@ -2707,7 +2707,7 @@ select[multiple].input-lg, .input-group-lg > select[multiple].form-control,
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #737373; }
+  color: #a6a6a6; }
 
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -4184,7 +4184,7 @@ tbody.collapse.in {
 
 .navbar-inverse {
   background-color: #222;
-  border-color: #090909; }
+  border-color: #222; }
   .navbar-inverse .navbar-brand {
     color: #9d9d9d; }
     .navbar-inverse .navbar-brand:hover,
@@ -4226,9 +4226,9 @@ tbody.collapse.in {
     color: #fff; }
   @media (max-width: 767px) {
     .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
-      border-color: #090909; }
+      border-color: #222; }
     .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
-      background-color: #090909; }
+      background-color: #222; }
     .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
       color: #9d9d9d; }
       .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
@@ -4553,7 +4553,7 @@ a.badge:focus {
     margin-right: auto; }
   .thumbnail .caption {
     padding: 9px;
-    color: #333333; }
+    color: #666; }
 
 a.thumbnail:hover,
 a.thumbnail:focus,
@@ -8081,7 +8081,9 @@ button.close {
   content: ""; }
 
 body {
-  font-family: 'Open Sans', sans-serif; }
+  background: #333333;
+  color: #eeeeee;
+  font-family: 'Lato', sans-serif; }
 
 h1,
 h2,
@@ -8093,8 +8095,7 @@ h6 {
 
 a,
 a:hover,
-a:focus,
-a:visited {
+a:focus {
   color: inherit;
   text-decoration: none; }
 
@@ -8108,9 +8109,48 @@ a:visited {
   margin: 0;
   padding: 0; }
 
-.row-centered {
+.row-centered,
+.row-bottom {
   display: flex;
-  align-items: center; }
+  align-items: center;
+  flex-wrap: wrap; }
+  @media (max-width: 480px) {
+    .row-centered .col-sm-1,
+    .row-centered .col-sm-2,
+    .row-centered .col-sm-3,
+    .row-centered .col-sm-4,
+    .row-centered .col-sm-5,
+    .row-centered .col-sm-6,
+    .row-centered .col-sm-7,
+    .row-centered .col-sm-8,
+    .row-centered .col-sm-9,
+    .row-centered .col-sm-10,
+    .row-centered .col-sm-11,
+    .row-centered .col-sm-12,
+    .row-bottom .col-sm-1,
+    .row-bottom .col-sm-2,
+    .row-bottom .col-sm-3,
+    .row-bottom .col-sm-4,
+    .row-bottom .col-sm-5,
+    .row-bottom .col-sm-6,
+    .row-bottom .col-sm-7,
+    .row-bottom .col-sm-8,
+    .row-bottom .col-sm-9,
+    .row-bottom .col-sm-10,
+    .row-bottom .col-sm-11,
+    .row-bottom .col-sm-12 {
+      width: 100%; } }
+
+.row-bottom {
+  align-items: flex-end; }
+
+.btn-inverse {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff; }
+  .btn-inverse:hover {
+    background: #000;
+    color: #fff; }
 
 .btn-outline,
 .btn-clear {
@@ -8142,12 +8182,24 @@ a:visited {
     border-color: transparent !important; }
 
 .btn-rounded {
+  padding: 6px 24px;
+  font-size: 14px;
+  line-height: 1.42857;
   border-radius: 15.42857px; }
   .btn-rounded.btn-lg, .btn-group-lg > .btn-rounded.btn {
+    padding: 10px 32px;
+    font-size: 18px;
+    line-height: 1.33333;
     border-radius: 23.33333px; }
   .btn-rounded.btn-sm, .btn-group-sm > .btn-rounded.btn {
+    padding: 5px 20px;
+    font-size: 12px;
+    line-height: 1.5;
     border-radius: 13.5px; }
   .btn-rounded.btn-xs, .btn-group-xs > .btn-rounded.btn {
+    padding: 1px 10px;
+    font-size: 12px;
+    line-height: 1.5;
     border-radius: 5.5px; }
 
 #drawer {
@@ -8155,27 +8207,88 @@ a:visited {
 
 @media (min-width: 768px) {
   body {
-    padding-top: 86px; }
-  #dashboard .navbar-nav > li > a {
-    padding: 8px 7.5px; }
-  #header .navbar-fixed-top {
-    top: 36px; }
-    #header .navbar-fixed-top .navbar-collapse {
-      max-height: none; } }
+    padding-top: 50px;
+    padding-bottom: 36px; }
+  #header .navbar-fixed-top .navbar-collapse {
+    max-height: none; } }
 
-.section {
+#content {
+  background: #fff;
+  color: #666; }
+
+.pane {
   padding: 40px 0 60px; }
 
-.section-dark {
+.pane-dark {
   background: #333333;
   color: #eeeeee; }
-  .section-dark hr {
+  .pane-dark h1,
+  .pane-dark h2,
+  .pane-dark h3,
+  .pane-dark h4,
+  .pane-dark h5,
+  .pane-dark h6 {
+    color: #eeeeee; }
+  .pane-dark hr {
     border-color: #555555; }
 
-.section-light {
+.pane-light {
   background: #eeeeee; }
 
-.jumbotron {
-  background: #222222 url({{"shop.jpg" | asset_url}}) center;
-  background-size: cover;
-  height: 350px; }
+.pane-medium {
+  background: #b3b3b3; }
+  .pane-medium hr {
+    border-color: #777777; }
+
+.hero {
+  display: block;
+  text-align: center; }
+  .hero .container {
+    padding: 160px 0;
+    min-height: 400px; }
+    @media (max-width: 480px) {
+      .hero .container {
+        padding: 80px 0;
+        min-height: 0; } }
+  .hero h1,
+  .hero h2,
+  .hero h3,
+  .hero h4,
+  .hero h5,
+  .hero h6 {
+    color: inherit;
+    text-transform: uppercase; }
+  .hero h1,
+  .hero h2,
+  .hero h3 {
+    font-weight: 300;
+    letter-spacing: 0.2em; }
+  .hero h4,
+  .hero h5,
+  .hero h6 {
+    font-weight: 700;
+    letter-spacing: 0.6em; }
+  .hero h1 {
+    font-size: 72px; }
+  .hero hr {
+    width: 320px;
+    opacity: 0.25; }
+  .hero .btn {
+    letter-spacing: 0.2em;
+    text-transform: uppercase; }
+  .hero.hero-woods {
+    background: #222222 url({{"hero-woods.jpg" | asset_url}}) center no-repeat;
+    background-size: cover;
+    color: #fff; }
+    .hero.hero-woods .container {
+      padding-bottom: 320px;
+      background: url({{"hero-camera.png" | asset_url }}) center 75% no-repeat;
+      background-size: 75%; }
+      @media (max-width: 480px) {
+        .hero.hero-woods .container {
+          padding-bottom: 160px;
+          background-position: center 85%; } }
+  .hero.hero-shop {
+    background: #222222 url({{"shop.jpg" | asset_url}}) center no-repeat;
+    background-size: cover;
+    color: #fff; }

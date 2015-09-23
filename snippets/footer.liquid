@@ -1,14 +1,48 @@
-<footer id="footer">
+<footer id="footer" class="pane pane-dark">
   <div class="container">
+    <div class="row">
+      <div class="col-xs-3 col-sm-2">
+        {{'made-in-tacoma.png' | asset_url | img_tag: 'Made in the USA - Tacoma, WA', 'img-responsive'}}
+      </div>
+
+      <div class="col-xs-9 col-sm-6">
+        <div class="row">
+          {% for link in linklists.footer.links %}
+          <div class="col-xs-6 col-sm-3">
+            <p>
+              <a href="{{ link.url | escape }}">
+                {{ link.title | escape }}
+              </a>
+            </p>
+
+            {% if linklists[link.handle].links.size > 0 %}
+            <ul class="list-unstyled">
+              {% for sublink in linklists.[link.handle].links %}
+              <li>
+                <a href="{{ sublink.url | escape }}" class="text-muted">
+                  {{ sublink.title | escape }}
+                </a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-4">
+        <p>Newsletter</p>
+        <p class="text-muted">Want to be the first to know about new products, special discounts, and sneak peeks?</p>
+        {% include 'newsletter' %}
+      </div>
+    </div>
+
     <hr>
 
     <div class="row">
-      <div class="col-sm-8">
-        <p>&copy; {{ shop.name }}</p>
-      </div>
-
-      <div class="col-sm-4">
-        {% include 'newsletter' %}
+      <div class="col-sm-12">
+        <p class="text-muted">&copy; {{ shop.name }}</p>
       </div>
     </div>
   </div>
