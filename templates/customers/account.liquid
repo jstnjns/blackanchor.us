@@ -1,93 +1,97 @@
 {% layout settings.customer_layout %}
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12">
-      <section class="text-center">
-        <header>
-          <h1>Account</h1>
-        </header>
+<div id="content">
+  <div class="pane">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <section class="text-center">
+            <header>
+              <h1>Account</h1>
+            </header>
 
-        <div class="content">
-          <p>
-            <strong>{{ customer.name }}</strong><br>
-            {{ customer.email }}
-          </p>
+            <div class="content">
+              <p>
+                <strong>{{ customer.name }}</strong><br>
+                {{ customer.email }}
+              </p>
+            </div>
+          </section>
         </div>
-      </section>
-    </div>
-  </div>
+      </div>
 
-  <hr>
+      <hr>
 
-  <div class="row">
-    <div class="col-sm-8">
-      <section>
-        <header>
-          <h2>Orders</h2>
-        </header>
+      <div class="row">
+        <div class="col-sm-8">
+          <section>
+            <header>
+              <h2>Orders</h2>
+            </header>
 
-        <div class="content">
-          {% if customer.orders.size != 0 %}
-          <div class="list-group">
-            {% for order in customer.orders %}
-            <a href="{{order.customer_url}}" class="list-group-item {% if order.cancelled %}list-group-item-danger{% endif %}">
-              <div class="row">
-                <div class="col-sm-9">
-                  <span class="badge badge-default">
-                    {{ order.fulfillment_status | capitalize }}
-                  </span>
+            <div class="content">
+              {% if customer.orders.size != 0 %}
+              <div class="list-group">
+                {% for order in customer.orders %}
+                <a href="{{order.customer_url}}" class="list-group-item {% if order.cancelled %}list-group-item-danger{% endif %}">
+                  <div class="row">
+                    <div class="col-xs-9">
+                      <span class="badge badge-default">
+                        {{ order.fulfillment_status | capitalize }}
+                      </span>
 
-                  {{ order.created_at | date: "%d %b %Y" }}
-                </div>
+                      {{ order.created_at | date: "%d %b %Y" }}
+                    </div>
 
-                <div class="col-sm-3 text-right">
-                  {{ order.total_price | money }}
-                </div>
+                    <div class="col-xs-3 text-right">
+                      {{ order.total_price | money }}
+                    </div>
+                  </div>
+                </a>
+                {% endfor %}
+                {% else %}
+                <p class="text-center text-muted">
+                  You haven't placed any orders yet.
+                </p>
+                {% endif %}
               </div>
-            </a>
-            {% endfor %}
-            {% else %}
-            <p class="text-center text-muted">
-              You haven't placed any orders yet.
-            </p>
-            {% endif %}
-          </div>
+            </div>
+          </secton>
         </div>
-      </secton>
-    </div>
 
-    <div class="col-sm-4">
-      <section>
-        <header>
-          <h2>Address</h2>
-        </header>
+        <div class="col-sm-4">
+          <section>
+            <header>
+              <h2>Address</h2>
+            </header>
 
-        <div class="content">
-          <address>
-            {% if customer.default_address != nil %}
-            <strong>{{ customer.default_address.first_name }} {{customer.default_address.last_name }}</strong><br>
-            <em>{{ customer.default_address.company }}</em></br>
+            <div class="content">
+              <address>
+                {% if customer.default_address != nil %}
+                <strong>{{ customer.default_address.first_name }} {{customer.default_address.last_name }}</strong><br>
+                <em>{{ customer.default_address.company }}</em></br>
 
-            <span class="muted">
-              {{ customer.default_address.address1 }}<br>
-              {% if customer.default_address.address2 != "" %}
-              {{ customer.default_address.address2 }}<br>
-              {% endif %}
-              {{ customer.default_address.city}}, {% if address.province_code %}{{customer.default_address.province_code}}, {% endif %}{{customer.default_address.country}}<br>
-              {{ customer.default_address.zip}}
-            </span><br>
-            P: {{ customer.default_address.phone }}
-            {% endif %}
-          </address>
+                <span class="muted">
+                  {{ customer.default_address.address1 }}<br>
+                  {% if customer.default_address.address2 != "" %}
+                  {{ customer.default_address.address2 }}<br>
+                  {% endif %}
+                  {{ customer.default_address.city}}, {% if address.province_code %}{{customer.default_address.province_code}}, {% endif %}{{customer.default_address.country}}<br>
+                  {{ customer.default_address.zip}}
+                </span><br>
+                P: {{ customer.default_address.phone }}
+                {% endif %}
+              </address>
 
-          <p>
-            <a href="/account/addresses" class="btn btn-default">
-              View Addresses ({{ customer.addresses_count }})
-            </a>
-          </p>
+              <p>
+                <a href="/account/addresses" class="btn btn-default">
+                  View Addresses ({{ customer.addresses_count }})
+                </a>
+              </p>
+            </div>
+          </section>
         </div>
-      </section>
+      </div>
     </div>
   </div>
 </div>

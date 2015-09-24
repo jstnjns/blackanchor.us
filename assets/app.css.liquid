@@ -8179,8 +8179,12 @@ video {
     line-height: 1.5;
     border-radius: 5.5px; }
 
-@media (min-width: 768px) {
-  #header .navbar-fixed-top .navbar-collapse {
+.navbar-inverse hr {
+  border-top-color: #000;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1); }
+
+@media (max-width: 767px) {
+  .navbar-fixed-top .navbar-collapse {
     max-height: none; } }
 
 #content {
@@ -8188,7 +8192,7 @@ video {
   color: #666; }
 
 .pane {
-  padding: 40px 0 60px; }
+  padding: 60px 0; }
 
 .pane-dark {
   background: #333333;
@@ -8297,3 +8301,17 @@ video {
       z-index: 1;
       background: rgba(0, 0, 0, 0.5);
       color: #fff; }
+
+.page-cart .table > tbody > tr > td {
+  vertical-align: middle; }
+
+.page-cart .media {
+  display: inline-block;
+  vertical-align: middle; }
+
+.page-cart .quantity {
+  width: 8em;
+  text-align: center; }
+
+.page-cart .total {
+  text-align: right; }

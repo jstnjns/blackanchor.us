@@ -1,5 +1,5 @@
 (function() {
-  angular.module('ba', ['ba.controllers']).config(function($interpolateProvider) {
+  angular.module('ba', ['ba.controllers', 'ba.services']).config(function($interpolateProvider) {
     return $interpolateProvider.startSymbol('[[').endSymbol(']]');
   }).run(function() {
     var components, path, pathname, section;
@@ -12,10 +12,14 @@
 
   angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
 
-  angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, $sce) {
+  angular.module('ba.services', ['ba.services.cart']);
+
+  angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
     var init;
-    $scope.cart = window.cart;
-    init = function() {};
+    $scope.items = [];
+    init = function() {
+      return $scope.items = Cart.fetch();
+    };
     return init();
   });
 
@@ -67,7 +71,7 @@
     }
   };
 
-  angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce, $window) {
+  angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce, $window, Cart) {
     var getDynamicContent, init, onOptionsChange, variantFor;
     $scope.product = window.product;
     $scope.variant = window.variant;
@@ -80,7 +84,13 @@
       });
       return variations.unique();
     };
-    $scope.addToCart = console.log(arguments);
+    $scope.addToCart = function() {
+      console.log('addToCart', arguments);
+      return Cart.add({
+        id: $scope.variant.id,
+        quantity: 1
+      });
+    };
     init = function() {
       $scope.$watch('options', onOptionsChange, true);
       return getDynamicContent();
@@ -106,6 +116,22 @@
       });
     };
     return init();
+  });
+
+  angular.module('ba.services.cart', []).service('Cart', function($rootScope, $http) {
+    return {
+      items: [],
+      fetch: function() {
+        return $http.get('/cart.js').success(function(data) {
+          return console.log('cart', data);
+        });
+      },
+      add: function(product) {
+        return $http.post('/cart/add.js', product).success(function(data) {
+          return console.log('add', data);
+        });
+      }
+    };
   });
 
 }).call(this);

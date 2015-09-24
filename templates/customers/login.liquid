@@ -1,111 +1,113 @@
-{% layout settings.customer_layout %}
+<div id="content">
+  <div class="pane">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+          <section ng-hide="reset">
+            <header class="text-center">
+              <h1>Login</h1>
+            </header>
 
-      <section ng-hide="reset">
-        <header class="text-center">
-          <h1>Login</h1>
-        </header>
-
-        {% form 'customer_login' %}
-        {% if form.errors %}
-        <div class="alert alert-error">
-          {% for field in form.errors %}
-            <div>{{form.errors.messages[field]}}</div>
-          {% endfor %}
-        </div>
-        {% endif %}
-
-        <div class="form">
-          <div class="form-group">
-            <label>Email</label>
-            <input type="email" name="customer[email]" class="form-control">
-          </div>
-
-          {% if form.password_needed %}
-          <div class="form-group">
-            <label>Password</label>
-            <input type="password" name="customer[password]" class="form-control">
-          </div>
-          {% endif %}
-
-          <button class="btn btn-primary btn-block" type="submit">
-            Sign in
-          </button>
-
-          <hr>
-        </div>
-
-        <p class="text-center">
-          <small>
-            <a ng-click="reset = true">
-              Forgot your password?
-            </a>
-          </small>
-        </p>
-        {% endform %}
-      </section>
-
-      <section ng-show="reset">
-        <header class="text-center">
-          <h1>Reset Password</h1>
-        </header>
-
-        <div class="content">
-          <p class="text-muted">
-            We will send you an email to reset your password.
-          </p>
-
-          {% form 'recover_customer_password' %}
+            {% form 'customer_login' %}
             {% if form.errors %}
             <div class="alert alert-error">
-              {{ form.errors | default_errors }}
+              {% for field in form.errors %}
+                <div>{{form.errors.messages[field]}}</div>
+              {% endfor %}
             </div>
             {% endif %}
 
-          <div class="form">
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" name="email" class="form-control">
-            </div>
-
-            <div class="row">
-              <div class="col-sm-6">
-                <button class="btn btn-primary btn-block" type="submit">
-                  Submit
-                </button>
+            <div class="form">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="customer[email]" class="form-control">
               </div>
 
-              <div class="col-sm-6">
-                <a class="btn btn-default btn-block"
-                  ng-click="reset = false">
-                  Cancel
+              {% if form.password_needed %}
+              <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="customer[password]" class="form-control">
+              </div>
+              {% endif %}
+
+              <button class="btn btn-primary btn-block" type="submit">
+                Sign in
+              </button>
+
+              <hr>
+            </div>
+
+            <p class="text-center">
+              <small>
+                <a ng-click="reset = true">
+                  Forgot your password?
                 </a>
+              </small>
+            </p>
+            {% endform %}
+          </section>
+
+          <section ng-show="reset">
+            <header class="text-center">
+              <h1>Reset Password</h1>
+            </header>
+
+            <div class="content">
+              <p class="text-muted">
+                We will send you an email to reset your password.
+              </p>
+
+              {% form 'recover_customer_password' %}
+                {% if form.errors %}
+                <div class="alert alert-error">
+                  {{ form.errors | default_errors }}
+                </div>
+                {% endif %}
+
+              <div class="form">
+                <div class="form-group">
+                  <label>Email</label>
+                  <input type="email" name="email" class="form-control">
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <button class="btn btn-primary btn-block" type="submit">
+                      Submit
+                    </button>
+                  </div>
+
+                  <div class="col-sm-6">
+                    <a class="btn btn-default btn-block"
+                      ng-click="reset = false">
+                      Cancel
+                    </a>
+                  </div>
+                </div>
               </div>
+              {% endform %}
             </div>
-          </div>
-          {% endform %}
+          </section>
+
+          {% if shop.checkout.guest_login %}
+          <section>
+            <header class="text-center">
+              <h2>Guest Login</h2>
+            </header>
+
+            {% form 'guest_login' %}
+            <div class="form-group">
+              <button class="btn btn-primary" type="submit">
+                Continue as Guest
+              </button>
+            </div>
+            {% endform %}
+          </section>
+          {% endif %}
+
         </div>
-      </section>
-
-      {% if shop.checkout.guest_login %}
-      <section>
-        <header class="text-center">
-          <h2>Guest Login</h2>
-        </header>
-
-        {% form 'guest_login' %}
-        <div class="form-group">
-          <button class="btn btn-primary" type="submit">
-            Continue as Guest
-          </button>
-        </div>
-        {% endform %}
-      </section>
-      {% endif %}
-
+      </div>
     </div>
   </div>
 </div>

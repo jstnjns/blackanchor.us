@@ -31,8 +31,7 @@
             <div class="content">
               <hr>
 
-              <form action="/cart/add" method="post"
-                ng-submit="addToCart(variant)">
+              <form ng-submit="addToCart(variant)">
                 <div ng-if="product.variants.length > 1">
                   <div class="form-group"
                     ng-repeat="(i, option) in product.options">
