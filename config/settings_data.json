@@ -15,13 +15,13 @@
     "checkout_input_background_color_mode": "white",
     "checkout_use_sidebar_background_image": false,
     "checkout_sidebar_background_color": "#fafafa",
-    "checkout_heading_font": "Open Sans",
-    "checkout_body_font": "Raleway",
+    "checkout_heading_font": "Lato",
+    "checkout_body_font": "Lato",
     "checkout_accent_color": "#333333",
     "checkout_button_color": "#333333",
     "checkout_error_color": "#ff6d6d",
     "customer_layout": "theme",
-    "checkout_banner_background_color": "#ffffff",
+    "checkout_banner_background_color": "#ff0000",
     "checkout_headline": "Repair, not replace. Heritage Pieces.",
     "checkout_call_to_action_color": "#777777"
   }
