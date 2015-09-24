@@ -1,15 +1,13 @@
-<div id="content">
+<div id="content" ng-controller="cartCtrl">
   <div class="pane">
-    <div class="container"
-      ng-controller="cartCtrl">
-
+    <div class="container">
       <section>
         <header>
           <h1 class="text-center">Cart</h1>
         </header>
 
         <div class="content">
-          <p class="alert"
+          <p class="alert text-center"
             ng-hide="cart.item_count">
             Your shopping cart is empty.
             View <a href="/collections/all">all products</a>.
@@ -80,8 +78,6 @@
           </form>
         </div>
       </section>
-
-
     </div>
   </div>
 </div>

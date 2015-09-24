@@ -10,15 +10,27 @@
     return $(document.body).addClass("section-" + section + " page-" + path);
   });
 
-  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
+  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart', 'ba.controllers.cart.mini']);
 
   angular.module('ba.services', ['ba.services.cart']);
 
   angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
     var init;
-    $scope.items = [];
     init = function() {
-      return $scope.items = Cart.fetch();
+      return $scope.cart = window.cart;
+    };
+    return init();
+  });
+
+  angular.module('ba.controllers.cart.mini', []).controller('cartMiniCtrl', function($scope, $http, Cart) {
+    var init, onCartChange;
+    $scope.cart = [];
+    init = function() {
+      $scope.$on('cart:change', onCartChange);
+      return Cart.fetch();
+    };
+    onCartChange = function(event, cart) {
+      return $scope.cart = cart;
     };
     return init();
   });
@@ -120,16 +132,23 @@
 
   angular.module('ba.services.cart', []).service('Cart', function($rootScope, $http) {
     return {
-      items: [],
+      cart: [],
       fetch: function() {
-        return $http.get('/cart.js').success(function(data) {
-          return console.log('cart', data);
-        });
+        window.CartOrig = this;
+        return $http.get('/cart.js').success((function(_this) {
+          return function(data) {
+            _this.cart = data;
+            return $rootScope.$broadcast('cart:change', _this.cart);
+          };
+        })(this));
       },
       add: function(product) {
-        return $http.post('/cart/add.js', product).success(function(data) {
-          return console.log('add', data);
-        });
+        return $http.post('/cart/add.js', product).success((function(_this) {
+          return function(data) {
+            _this.cart.items.push(data);
+            return $rootScope.$broadcast('cart:change', _this.cart);
+          };
+        })(this));
       }
     };
   });

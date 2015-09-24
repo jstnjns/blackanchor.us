@@ -60,6 +60,10 @@ video {
 
 .flush { margin: 0; padding: 0; }
 
+.text-default {
+  color: $text-color;
+}
+
 .row-centered,
 .row-bottom {
   display: flex;
@@ -325,6 +329,12 @@ video {
 
       color: $white;
     }
+  }
+}
+
+.menu-item-cart {
+  .dropdown-menu {
+    width: 300px;
   }
 }
 

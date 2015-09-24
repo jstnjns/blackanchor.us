@@ -117,19 +117,6 @@
         {% endif %}
 
         <ul class="nav navbar-nav navbar-right">
-          <li class="hidden-xs"
-            ng-controller="cartCtrl">
-            <a href="/cart">
-              <ng-pluralize count="items" when="{
-                '0': 'No Items in Cart',
-                'one': '1 Item in Cart',
-                'other': '{} Items in Cart'
-              }"></ng-pluralize>
-              {{ cart.item_count }}
-              {{ cart.item_count | pluralize: 'Item', 'Items' }}
-            </a>
-          </li>
-
           {% if shop.customer_accounts_enabled and customer %}
           <li class="dropdown">
             <a href="/account" class="dropdown-toggle"
@@ -148,6 +135,52 @@
 
           <li>{{ "Login" | customer_login_link }}</li>
           {% endif %}
+
+          <li class="hidden-xs menu-item-cart"
+            ng-controller="cartMiniCtrl">
+            <a href="/cart" class="dropdown-toggle"
+              data-toggle="dropdown" data-target="#">
+              <ng-pluralize count="cart.items.length" when="{
+                '0': '', 'NaN': '',
+                'one': '1 Item In Cart',
+                'other': '{} Items In Cart'
+              }"></ng-pluralize>
+              <span class="caret"
+                ng-show="cart.items.length"></span>
+            </a>
+
+            <div class="dropdown-menu text-default"
+              ng-show="cart.items.length">
+              <table class="table table-condensed">
+                <thead>
+                  <tr>
+                    <th>Qty</th>
+                    <th>Item</th>
+                    <th class="text-right">Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr ng-repeat="item in cart.items">
+                    <td>
+                      [[item.quantity]]
+                    </td>
+                    <td>
+                      [[item.title]]
+                    </td>
+                    <td class="text-right">
+                      [[item.line_price/100 | currency]]
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                  <th colspan="2" class="text-right">Total</th>
+                  <td>
+                    [[ cart.total_price/100 | currency ]]
+                  </td>
+                </tfoot>
+              </table>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
