@@ -164,8 +164,15 @@ video {
   }
 }
 
-@media (min-width: $screen-sm-min) {
-  #header .navbar-fixed-top {
+.navbar-inverse {
+  hr {
+    border-top-color: $navbar-inverse-border;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.1);
+  }
+}
+
+@media (max-width: $screen-xs-max) {
+  .navbar-fixed-top {
     .navbar-collapse {
       max-height: none;
     }
@@ -179,7 +186,7 @@ video {
 }
 
 .pane {
-  padding: ($line-height-computed * 2) 0 ($line-height-computed * 3);
+  padding: ($line-height-computed * 3) 0;
 }
 
 .pane-dark {
@@ -318,5 +325,26 @@ video {
 
       color: $white;
     }
+  }
+}
+
+.page-cart {
+  .table > tbody > tr > td {
+    vertical-align: middle;
+  }
+
+  .media {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .quantity {
+    width: 8em;
+
+    text-align: center;
+  }
+
+  .total {
+    text-align: right;
   }
 }
