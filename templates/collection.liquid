@@ -1,35 +1,37 @@
-<div class="container">
-  <div class="pane">
-    <section>
-      <header class="text-center">
-        <h1>{{ collection.title }}</h2>
-        <p class="text-muted">{{ collection.description }}</p>
-      </header>
+<div id="content">
+  <div class="container">
+    <div class="pane">
+      <section>
+        <header class="text-center">
+          <h1>{{ collection.title }}</h2>
+          <p class="text-muted">{{ collection.description }}</p>
+        </header>
 
-      <hr>
+        <hr>
 
-      <div class="content">
-        <div class="row row-centered">
-          {% for product in collection.products %}
-          <div class="col-sm-3 text-center">
-            <a href="{{ product.url }}">
-              <img class="img-responsive"
-                src="{{ product.featured_image | product_img_url: 'large'}}">
+        <div class="content">
+          <div class="row row-centered">
+            {% for product in collection.products %}
+            <div class="col-sm-3 text-center">
+              <a href="{{ product.url }}">
+                <img class="img-responsive"
+                  src="{{ product.featured_image | product_img_url: 'large'}}">
 
-              <h3>{{product.title}}</h3>
-              <h5 class="text-muted">
-                {% if product.price_max > product.price %}
-                  {{ product.price_min | money }} -
-                  {{ product.price_max | money }}
-                {% else %}
-                  {{ product.price | money }}
-                {% endif %}
-              </h5>
-            </a>
+                <h3>{{product.title}}</h3>
+                <h5 class="text-muted">
+                  {% if product.price_max > product.price %}
+                    {{ product.price_min | money }} -
+                    {{ product.price_max | money }}
+                  {% else %}
+                    {{ product.price | money }}
+                  {% endif %}
+                </h5>
+              </a>
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </div>
 </div>

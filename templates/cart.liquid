@@ -1,75 +1,77 @@
-<div class="container"
-  ng-controller="cartCtrl">
+<div class="pane">
+  <div class="container"
+    ng-controller="cartCtrl">
 
-  <p class="alert"
-    ng-hide="cart.item_count">
-    Your shopping cart is empty.
-    View <a href="/collections/all">all products</a>.
-  </p>
+    <p class="alert"
+      ng-hide="cart.item_count">
+      Your shopping cart is empty.
+      View <a href="/collections/all">all products</a>.
+    </p>
 
-  <form action="/cart" method="post"
-    ng-show="cart.item_count">
-    <table class="table">
-      <tr>
-        <th class="item">Item</th>
-        <th class="price">Price</th>
-        <th class="quantity">Qty</th>
-        <th class="total hidden-xs">Total</th>
-      </tr>
+    <form action="/cart" method="post"
+      ng-show="cart.item_count">
+      <table class="table">
+        <tr>
+          <th class="item">Item</th>
+          <th class="price">Price</th>
+          <th class="quantity">Qty</th>
+          <th class="total hidden-xs">Total</th>
+        </tr>
 
-      <tr ng-repeat="item in cart.items"
-        data-variant="item.variant.id">
-        <td class="item">
-          <div class="media">
-            <a href="[[item.url]]" class="pull-left">
-              <img ng-src="[[item.image]]" width="20">
-            </a>
-            <div class="media-body">
-              <h3 class="media-heading flush">
-                [[ item.title ]]
-              </h3>
-            </div>
-          </div>
-        </td>
-
-        <td class="price">
-          [[ item.price/100 | currency ]]
-        </td>
-
-        <td class="quantity">
-          <div class="input-group input-group-sm">
-            <input type="text" class="form-control"
-              ng-model="item.quantity">
-
-            <span class="input-group-btn">
-              <a class="btn btn-danger btn-remove">
-                <i class="fa fa-times"></i>
+        <tr ng-repeat="item in cart.items"
+          data-variant="item.variant.id">
+          <td class="item">
+            <div class="media">
+              <a href="[[item.url]]" class="pull-left">
+                <img ng-src="[[item.image]]" width="20">
               </a>
-            </span>
-          </div>
-        </td>
+              <div class="media-body">
+                <h3 class="media-heading flush">
+                  [[ item.title ]]
+                </h3>
+              </div>
+            </div>
+          </td>
 
-        <td class="total hidden-xs">
-          [[ item.line_price/100 | currency ]]
-        </td>
-      </tr>
+          <td class="price">
+            [[ item.price/100 | currency ]]
+          </td>
 
-      <tr>
-        <td colspan="5" class="text-right">
-          <small>Subtotal</small>
-          [[ cart.total_price/100 | currency ]]
-        </td>
-      </tr>
-    </table>
+          <td class="quantity">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control"
+                ng-model="item.quantity">
 
-    <button name="checkout" type="submit" class="btn btn-primary btn-lg pull-right">
-      Checkout
-    </button>
+              <span class="input-group-btn">
+                <a class="btn btn-danger btn-remove">
+                  <i class="fa fa-times"></i>
+                </a>
+              </span>
+            </div>
+          </td>
 
-    <button name="update" type="submit" class="btn btn-default btn-lg">
-      Update
-    </button>
-  </form>
+          <td class="total hidden-xs">
+            [[ item.line_price/100 | currency ]]
+          </td>
+        </tr>
+
+        <tr>
+          <td colspan="5" class="text-right">
+            <small>Subtotal</small>
+            [[ cart.total_price/100 | currency ]]
+          </td>
+        </tr>
+      </table>
+
+      <button name="checkout" type="submit" class="btn btn-primary btn-lg pull-right">
+        Checkout
+      </button>
+
+      <button name="update" type="submit" class="btn btn-default btn-lg">
+        Update
+      </button>
+    </form>
+  </div>
 </div>
 
 
