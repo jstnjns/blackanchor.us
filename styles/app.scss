@@ -3,17 +3,36 @@ $white: #fff;
 $brand-primary: #357b9c;
 $text-color: #666;
 $headings-color: #333;
-$navbar-inverse-border: #222;
+$navbar-default-bg: rgba(255,255,255,0.9);
+$navbar-inverse-bg: rgba(0,0,0,0.8);
+$navbar-inverse-border: $black;
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import '../node_modules/font-awesome/scss/font-awesome';
+
+html,
+body,
+#wrap {
+  width: 100%; height: 100%;
+}
 
 body {
   background: $gray-dark;
 
   color: $gray-lighter;
   font-family: 'Lato', sans-serif;
+
+  @media (min-width: $screen-sm-min) {
+    $dashboard-height: 36px;
+    $header-height: 50px;
+
+    padding-bottom: $dashboard-height;
+
+    &.page-home {
+      padding-top: 0; padding-bottom: 0;
+    }
+  }
 }
 
 h1,
@@ -32,6 +51,10 @@ a:focus {
   text-decoration: none;
 }
 
+video {
+  vertical-align: top;
+}
+
 .ng-cloak { display: none; }
 [ng-click] { cursor: pointer; }
 
@@ -43,7 +66,7 @@ a:focus {
   align-items: center;
   flex-wrap: wrap;
 
-  @media (max-width: $screen-xs) {
+  @media (max-width: $screen-sm) {
     .col-sm-1,
     .col-sm-2,
     .col-sm-3,
@@ -141,17 +164,7 @@ a:focus {
   }
 }
 
-#drawer { display: none; }
-
 @media (min-width: $screen-sm-min) {
-  $dashboard-height: 36px;
-  $header-height: 50px;
-
-  body {
-    padding-top: $header-height;
-    padding-bottom: $dashboard-height;
-  }
-
   #header .navbar-fixed-top {
     .navbar-collapse {
       max-height: none;
@@ -273,9 +286,37 @@ a:focus {
   }
 
   &.hero-shop {
-    background: $gray-darker url('{{"shop.jpg" | asset_url}}') center no-repeat;
+    background: $gray-darker url('{{"hero-shop.jpg" | asset_url}}') center no-repeat;
     background-size: cover;
 
     color: $white;
+  }
+
+  &.hero-video {
+    position: relative;
+    overflow: hidden;
+
+    video,
+    img {
+      position: absolute;
+      left: 50%; top: 50%;
+      min-width: 100%; height: 100%;
+      transform: translate(-50%, -50%);
+    }
+
+    .hero-content {
+      position: absolute;
+      left: 0; top: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%; height: 100%;
+      z-index: 1;
+
+      // background: url('{{"pattern-overlay.jpg" | asset_url}}') center repeat;
+      background: rgba(0,0,0,0.5);
+
+      color: $white;
+    }
   }
 }

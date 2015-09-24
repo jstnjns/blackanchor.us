@@ -1,6 +1,13 @@
 (function() {
   angular.module('ba', ['ba.controllers']).config(function($interpolateProvider) {
     return $interpolateProvider.startSymbol('[[').endSymbol(']]');
+  }).run(function() {
+    var components, path, pathname, section;
+    pathname = window.location.pathname.substr(1);
+    components = pathname.split('/');
+    path = components.join('--') || 'home';
+    section = components[0] || 'home';
+    return $(document.body).addClass("section-" + section + " page-" + path);
   });
 
   angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
@@ -12,7 +19,17 @@
     return init();
   });
 
-  angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope) {});
+  angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope, $http, $sce, $window) {
+    $http.get('/pages/home').then(function(response) {
+      var content, trusted;
+      content = $(response.data).find('#dynamic').html();
+      trusted = $sce.trustAsHtml(content);
+      return $scope.dynamic = trusted;
+    });
+    return $(window).on('resize', function(event) {
+      return $scope.height = this.innerHeight;
+    }).trigger('resize');
+  });
 
   Array.prototype.unique = function() {
     var j, key, output, ref, results, value;
@@ -42,8 +59,16 @@
     return true;
   };
 
-  angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce) {
-    var init, onOptionsChange, variantFor;
+  Array.prototype.at = function(n) {
+    if (n >= 0) {
+      return this[n];
+    } else {
+      return this[this.length + n];
+    }
+  };
+
+  angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce, $window) {
+    var getDynamicContent, init, onOptionsChange, variantFor;
     $scope.product = window.product;
     $scope.variant = window.variant;
     $scope.options = angular.copy($scope.variant.options);
@@ -57,7 +82,8 @@
     };
     $scope.addToCart = console.log(arguments);
     init = function() {
-      return $scope.$watch('options', onOptionsChange, true);
+      $scope.$watch('options', onOptionsChange, true);
+      return getDynamicContent();
     };
     onOptionsChange = function(newOptions) {
       return $scope.variant = variantFor(newOptions);
@@ -68,6 +94,16 @@
         return variant.options.like(options);
       });
       return variants[0];
+    };
+    getDynamicContent = function() {
+      var slug;
+      slug = $window.location.pathname.substr(1).split('/').at(-1);
+      return $http.get("/pages/" + slug).then(function(response) {
+        var content, trusted;
+        content = $(response.data).find('#dynamic').html();
+        trusted = $sce.trustAsHtml(content);
+        return $scope.dynamic = trusted;
+      });
     };
     return init();
   });

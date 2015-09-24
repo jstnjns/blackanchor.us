@@ -9,11 +9,7 @@
         <div class="row">
           {% for link in linklists.footer.links %}
           <div class="col-xs-6 col-sm-3">
-            <p>
-              <a href="{{ link.url | escape }}">
-                {{ link.title | escape }}
-              </a>
-            </p>
+            <p>{{ link.title | escape }}</p>
 
             {% if linklists[link.handle].links.size > 0 %}
             <ul class="list-unstyled">

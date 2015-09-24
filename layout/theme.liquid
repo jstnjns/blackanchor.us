@@ -6,19 +6,12 @@
   </head>
 
   <body class="shop ng-cloak">
-<!--     <div id="drawers" class="drawers">
-      {% include 'drawer' %}
-    </div> -->
 
     <div id="wrap">
       {% include 'header' %}
-
-      <div id="content">
-        {{ content_for_layout }}
-      </div><!-- /#content -->
-
+      {{ content_for_layout }}
       {% include 'footer' %}
-    </div><!-- /#wrap -->
+    </div>
 
     {% include 'foot' %}
 
