@@ -43,6 +43,13 @@
           <span class="icon-bar"></span>
         </button>
 
+        <button type="button" class="navbar-toggle"
+          ng-controller="cartMiniCtrl"
+          ng-show="cart.items.length">
+          <sup class="badge">[[cart.items.length]]</sup>
+          <i class="fa fa-cart"></i>
+        </button>
+
         <a class="navbar-brand" href="/">
           Black Anchor
           <!-- <img src="http://blackanchorworkshop.com/wp-content/themes/blackanchorworkshop/img/brand.png" -->
