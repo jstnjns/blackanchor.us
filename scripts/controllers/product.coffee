@@ -14,7 +14,7 @@ Array::at = (n) ->
 
 angular
   .module 'ba.controllers.product', []
-  .controller 'productCtrl', ($scope, $http, $sce, $window) ->
+  .controller 'productCtrl', ($scope, $http, $sce, $window, Cart) ->
     $scope.product = window.product
     $scope.variant = window.variant
     $scope.options = angular.copy $scope.variant.options
@@ -27,8 +27,12 @@ angular
       variations.unique()
 
 
-    $scope.addToCart =
-      console.log arguments
+    $scope.addToCart = ->
+      console.log('addToCart', arguments)
+
+      Cart.add
+        id: $scope.variant.id
+        quantity: 1
 
 
     init = ->

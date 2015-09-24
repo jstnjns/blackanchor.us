@@ -98,39 +98,35 @@
           {% endfor %}
         </ul>
 
+        {% if linklists.social.links.size > 0 %}
         <div class="visible-xs">
           <hr>
 
           <ul class="nav navbar-nav">
-            <li class="instagram">
-              <a href="http://instagram.com/blkancr" target="_blank">
-                Instagram
+            {% for social in linklists.social.links %}
+            <li class="{{ social.handle }}">
+              <a href="{{ social.url | escape }}" target="_blank">
+                {{ social.title | escape }}
               </a>
             </li>
-            <li class="twitter">
-              <a href="http://twitter.com/TheBlackAnchor" target="_blank">
-                Twitter
-              </a>
-            </li>
-            <li class="facebook">
-              <a href="http://www.facebook.com/BlackAnchorWorkshop" target="_blank">
-                Facebook
-              </a>
-            </li>
-            <li class="pinterest">
-              <a href="http://pinterest.com/source/shop.blackanchorworkshop.com/" target="_blank">
-                Pinterest
-              </a>
-            </li>
+            {% endfor %}
           </ul>
+
+          <hr>
         </div>
+        {% endif %}
 
         <ul class="nav navbar-nav navbar-right">
-          <li>
+          <li class="hidden-xs"
+            ng-controller="cartCtrl">
             <a href="/cart">
+              <ng-pluralize count="items" when="{
+                '0': 'No Items in Cart',
+                'one': '1 Item in Cart',
+                'other': '{} Items in Cart'
+              }"></ng-pluralize>
               {{ cart.item_count }}
               {{ cart.item_count | pluralize: 'Item', 'Items' }}
-              In Cart
             </a>
           </li>
 
@@ -142,7 +138,7 @@
               <span class="caret"></span>
             </a>
 
-            <ul class="dropdown-menu pull-right">
+            <ul class="dropdown-menu">
               <li><a href="/account">Account</a></li>
               <li>{{ "Logout" | customer_logout_link }}</li>
             </ul>

@@ -1,11 +1,14 @@
 angular
   .module 'ba', [
-    'ba.controllers'
+    'ba.controllers',
+    'ba.services'
   ]
+
   .config ($interpolateProvider) ->
     $interpolateProvider
       .startSymbol '[['
       .endSymbol ']]'
+
   .run ->
     pathname = window.location.pathname.substr 1
     components = pathname.split '/'
