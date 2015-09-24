@@ -1,28 +1,30 @@
-<div class="container">
-  <section>
-    <header class="text-center">
-      <h1>Collections</h1>
-    </header>
+<div id="content">
+  <div class="container">
+    <section>
+      <header class="text-center">
+        <h1>Collections</h1>
+      </header>
 
-    <hr>
+      <hr>
 
-    <div class="content">
-      <div class="row">
-        {% for collection in collections %}
-        <div class="col-sm-3 text-center">
-          <a href="{{collection.url}}">
-            <img class="img-responsive" src="
-              {% if collection.image %}
-                {{ collection | img_url: 'large' }}
-              {% else %}
-                {{ collection.products.first | img_url: 'large' }}
-              {% endif %}">
+      <div class="content">
+        <div class="row">
+          {% for collection in collections %}
+          <div class="col-sm-3 text-center">
+            <a href="{{collection.url}}">
+              <img class="img-responsive" src="
+                {% if collection.image %}
+                  {{ collection | img_url: 'large' }}
+                {% else %}
+                  {{ collection.products.first | img_url: 'large' }}
+                {% endif %}">
 
-            <h3>{{collection.title}}</h3>
-          </a>
+              <h3>{{collection.title}}</h3>
+            </a>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
       </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </div>
