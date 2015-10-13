@@ -9,7 +9,9 @@
 
     <div id="wrap">
       {% include 'header' %}
-      {{ content_for_layout }}
+      <div id="content">
+        {{ content_for_layout }}
+      </div>
       {% include 'footer' %}
     </div>
 

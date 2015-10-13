@@ -18,7 +18,7 @@ gulp.task('styles', function() {
   return gulp.src('./styles/app.scss')
     .pipe(sass())
     .pipe(replace(/'\{\{(.*)\}\}'/g, '{{$1}}'))
-    .pipe(autoprefixer())
+    .pipe(autoprefixer({ browsers: ['last 2 version', '> 1%'] }))
     .pipe(rename('app.css.liquid'))
     .pipe(gulp.dest('./assets'))
 });

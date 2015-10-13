@@ -1,0 +1,43 @@
+@font-face {
+  font-family: 'Visby';
+  font-weight: 700;
+  font-style: normal;
+  src: url('{{"visbycf-extrabold-webfont.woff" | asset_url}}');
+}
+
+@font-face {
+  font-family: 'Visby';
+  font-weight: 500;
+  font-style: normal;
+  src: url('{{"visbycf-medium-webfont.woff" | asset_url}}');
+}
+
+@font-face {
+  font-family: 'Visby';
+  font-weight: 100;
+  font-style: normal;
+  src: url('{{"visbycf-thin-webfont.woff" | asset_url}}');
+}
+
+
+
+
+
+@import "../node_modules/font-awesome/scss/variables";
+@import "../node_modules/font-awesome/scss/mixins";
+@import "../node_modules/font-awesome/scss/core";
+@import "../node_modules/font-awesome/scss/larger";
+@import "../node_modules/font-awesome/scss/fixed-width";
+@import "../node_modules/font-awesome/scss/list";
+@import "../node_modules/font-awesome/scss/bordered-pulled";
+@import "../node_modules/font-awesome/scss/animated";
+@import "../node_modules/font-awesome/scss/rotated-flipped";
+@import "../node_modules/font-awesome/scss/stacked";
+@import "../node_modules/font-awesome/scss/icons";
+
+@font-face {
+  font-family: 'FontAwesome';
+  font-weight: normal;
+  font-style: normal;
+  src: url('{{"fontawesome-webfont.woff" | asset_url}}') format('woff')
+}

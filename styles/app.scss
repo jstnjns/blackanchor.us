@@ -2,14 +2,18 @@ $black: #000;
 $white: #fff;
 $brand-primary: #357b9c;
 $text-color: #666;
+$text-muted: #ccc;
 $headings-color: #333;
 $navbar-default-bg: rgba(255,255,255,0.9);
 $navbar-inverse-bg: rgba(0,0,0,0.8);
 $navbar-inverse-border: $black;
 
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
-@import '../node_modules/font-awesome/scss/font-awesome';
+@import './type.scss';
+
+$dashboard-height: 36px;
+$header-height: 50px;
 
 html,
 body,
@@ -21,12 +25,11 @@ body {
   background: $gray-dark;
 
   color: $gray-lighter;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Visby', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.04em;
 
   @media (min-width: $screen-sm-min) {
-    $dashboard-height: 36px;
-    $header-height: 50px;
-
     padding-bottom: $dashboard-height;
 
     &.page-home {
@@ -49,6 +52,10 @@ a:hover,
 a:focus {
   color: inherit;
   text-decoration: none;
+}
+
+img {
+  max-width: 100%;
 }
 
 video {
@@ -86,10 +93,27 @@ video {
       width: 100%;
     }
   }
+
+  &:before,
+  &:after {
+    display: none;
+  }
 }
 
 .row-bottom {
   align-items: flex-end;
+}
+
+.row-flush {
+  // margin: 0;
+
+  $breaks: xs sm md lg;
+
+  @for $size from 1 through $grid-columns {
+    @each $break in $breaks {
+      .col-#{$break}-#{$size} { padding: 0; }
+    }
+  }
 }
 
 .btn-inverse {
@@ -183,14 +207,20 @@ video {
   }
 }
 
-#content {
-  background: $body-bg;
-
-  color: $text-color;
+.img-full {
+  width: 100%;
 }
 
 .pane {
   padding: ($line-height-computed * 3) 0;
+
+  background: $white;
+
+  color: $text-color;
+
+  &:first-of-type {
+    padding-top: $line-height-computed * 3 + $header-height;
+  }
 }
 
 .pane-dark {

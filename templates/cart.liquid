@@ -1,86 +1,85 @@
-<div id="content" ng-controller="cartCtrl">
-  <div class="pane">
-    <div class="container">
-      <section>
-        <header>
-          <h1 class="text-center">Cart</h1>
-        </header>
+<div class="pane" ng-controller="cartCtrl">
+  <div class="container">
+    <section>
+      <header>
+        <h1 class="text-center">Cart</h1>
+      </header>
 
-        <div class="content">
-          <p class="alert text-center"
-            ng-hide="cart.item_count">
-            Your shopping cart is empty.
-            View <a href="/collections/all">all products</a>.
-          </p>
+      <div class="content">
+        <p class="alert text-center"
+          ng-hide="cart.item_count">
+          Your shopping cart is empty.
+          View <a href="/collections/all">all products</a>.
+        </p>
 
-          <form action="/cart" method="post"
-            ng-show="cart.item_count">
-            <table class="table">
-              <tr>
-                <th class="item">Item</th>
-                <th class="quantity">Qty</th>
-                <th class="total hidden-xs">Total</th>
-              </tr>
+        <form action="/cart" method="post"
+          ng-show="cart.item_count">
+          <table class="table">
+            <tr>
+              <th class="item">Item</th>
+              <th class="quantity">Qty</th>
+              <th class="total hidden-xs">Total</th>
+            </tr>
 
-              <tr ng-repeat="item in cart.items"
-                data-variant="item.variant.id">
-                <td class="item">
-                  <div class="media">
-                    <a href="[[item.url]]" class="pull-left">
-                      <img ng-src="[[item.image]]" height="50">
+            <tr ng-repeat="item in cart.items"
+              data-variant="item.variant.id">
+              <td class="item">
+                <div class="media">
+                  <a href="[[item.url]]" class="pull-left">
+                    <img ng-src="[[item.image]]" height="50">
+                  </a>
+                  <div class="media-body">
+                    <h3 class="media-heading flush">
+                      [[ item.title ]]
+                    </h3>
+                    <h4 class="flush text-muted">
+                      [[ item.price/100 | currency ]]
+                    </h4>
+                  </div>
+                </div>
+              </td>
+
+              <td class="quantity">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control"
+                    ng-model="item.quantity">
+
+                  <span class="input-group-btn">
+                    <a class="btn btn-danger btn-remove">
+                      <i class="fa fa-times"></i>
                     </a>
-                    <div class="media-body">
-                      <h3 class="media-heading flush">
-                        [[ item.title ]]
-                      </h3>
-                      <h4 class="flush text-muted">
-                        [[ item.price/100 | currency ]]
-                      </h4>
-                    </div>
-                  </div>
-                </td>
+                  </span>
+                </div>
+              </td>
 
-                <td class="quantity">
-                  <div class="input-group input-group-sm">
-                    <input type="text" class="form-control"
-                      ng-model="item.quantity">
+              <td class="total hidden-xs">
+                <h3 class="flush">[[ item.line_price/100 | currency ]]</h3>
+              </td>
+            </tr>
 
-                    <span class="input-group-btn">
-                      <a class="btn btn-danger btn-remove">
-                        <i class="fa fa-times"></i>
-                      </a>
-                    </span>
-                  </div>
-                </td>
+            <tr>
+              <td colspan="4" class="text-right">
+                <h3>
+                  <small>Subtotal</small>
+                  [[ cart.total_price/100 | currency ]]
+                </h3>
+              </td>
+            </tr>
+          </table>
 
-                <td class="total hidden-xs">
-                  <h3 class="flush">[[ item.line_price/100 | currency ]]</h3>
-                </td>
-              </tr>
+          <button name="checkout" type="submit" class="btn btn-primary btn-lg pull-right">
+            Checkout
+          </button>
 
-              <tr>
-                <td colspan="4" class="text-right">
-                  <h3>
-                    <small>Subtotal</small>
-                    [[ cart.total_price/100 | currency ]]
-                  </h3>
-                </td>
-              </tr>
-            </table>
-
-            <button name="checkout" type="submit" class="btn btn-primary btn-lg pull-right">
-              Checkout
-            </button>
-
-            <button name="update" type="submit" class="btn btn-default btn-lg">
-              Update
-            </button>
-          </form>
-        </div>
-      </section>
-    </div>
+          <button name="update" type="submit" class="btn btn-default btn-lg">
+            Update
+          </button>
+        </form>
+      </div>
+    </section>
   </div>
 </div>
+
 
 
 <script type="text/javascript">

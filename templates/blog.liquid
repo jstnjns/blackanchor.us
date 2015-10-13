@@ -1,8 +1,5 @@
 {% paginate blog.articles by settings.pagination_limit %}
 <div id="blog">
-
-  <!-- Begin content -->
-  
   <div class="row">
     <div class="span9 articles">
       {% for article in blog.articles %}
@@ -22,11 +19,7 @@
       <hr class="divider" />
       {% endfor %}
     </div>
-
   </div>
-  
-  <!-- End content -->
-
 </div>
 
 {% include 'pagination' %}
