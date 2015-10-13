@@ -223,6 +223,10 @@ video {
   }
 }
 
+.pane-flush {
+  padding: 0 !important;
+}
+
 .pane-dark {
   background: $gray-dark;
   color: $gray-lighter;
