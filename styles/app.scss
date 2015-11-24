@@ -30,7 +30,7 @@ body {
   letter-spacing: 0.04em;
 
   @media (min-width: $screen-sm-min) {
-    padding-bottom: $dashboard-height;
+    // padding-bottom: $dashboard-height;
 
     &.page-home {
       padding-top: 0; padding-bottom: 0;
@@ -45,6 +45,10 @@ h4,
 h5,
 h6 {
   font-weight: 300;
+
+  small {
+    color: $text-muted;
+  }
 }
 
 a,
@@ -66,6 +70,36 @@ video {
 [ng-click] { cursor: pointer; }
 
 .flush { margin: 0; padding: 0; }
+
+.display-4,
+.display-3,
+.display-2,
+.display-1 {
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  line-height: 1.2em;
+  text-transform: uppercase;
+}
+
+.display-4 { font-size: 6rem; }
+.display-3 { font-size: 2.625rem; }
+.display-2 { font-size: 2.25rem; }
+.display-1 { font-size: 1.625rem; }
+
+@media (max-width: 768px) {
+  .display-4 { font-size: 3rem; }
+  .display-3 { font-size: 1.95rem; }
+  .display-2 { font-size: 1.65rem; }
+  .display-1 { font-size: 1.25rem; }
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-upper {
+  text-transform: uppercase;
+}
 
 .text-default {
   color: $text-color;
@@ -207,6 +241,12 @@ video {
   }
 }
 
+.dropdown-menu {
+  .dropdown-menu-container {
+    padding: 0 5px;
+  }
+}
+
 .img-full {
   width: 100%;
 }
@@ -217,6 +257,10 @@ video {
   background: $white;
 
   color: $text-color;
+
+  hr {
+    border-color: fade-out($black, 0.875);
+  }
 
   &:first-of-type {
     padding-top: $line-height-computed * 3 + $header-height;
@@ -241,7 +285,7 @@ video {
   }
 
   hr {
-    border-color: $gray;
+    border-color: fade-out($white, 0.5);
   }
 }
 
@@ -258,7 +302,7 @@ video {
 }
 
 
-.hero {
+.pane-hero {
   display: block;
 
   text-align: center;
@@ -273,36 +317,36 @@ video {
     }
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: inherit;
+  // h1,
+  // h2,
+  // h3,
+  // h4,
+  // h5,
+  // h6 {
+  //   color: inherit;
 
-    text-transform: uppercase;
-  }
+  //   text-transform: uppercase;
+  // }
 
-  h1,
-  h2,
-  h3 {
-    font-weight: 300;
-    letter-spacing: 0.2em;
-  }
+  // h1,
+  // h2,
+  // h3 {
+  //   font-weight: 300;
+  //   letter-spacing: 0.2em;
+  // }
 
-  h4,
-  h5,
-  h6 {
-    font-weight: 700;
-    letter-spacing: 0.6em;
-  }
+  // h4,
+  // h5,
+  // h6 {
+  //   font-weight: 700;
+  //   letter-spacing: 0.6em;
+  // }
 
-  h1 { font-size: 72px; }
+  // h1 { font-size: 72px; }
 
   hr {
     width: 320px;
-    opacity: 0.25;
+    // opacity: 0.25;
   }
 
   .btn {
@@ -310,7 +354,7 @@ video {
     text-transform: uppercase;
   }
 
-  &.hero-woods {
+  &.pane-hero-woods {
     background: $gray-darker url('{{"hero-woods.jpg" | asset_url}}') center no-repeat;
     background-size: cover;
 
@@ -330,14 +374,14 @@ video {
     }
   }
 
-  &.hero-shop {
+  &.pane-hero-shop {
     background: $gray-darker url('{{"hero-shop.jpg" | asset_url}}') center no-repeat;
     background-size: cover;
 
     color: $white;
   }
 
-  &.hero-video {
+  &.pane-hero-video {
     position: relative;
     overflow: hidden;
 
@@ -349,7 +393,7 @@ video {
       transform: translate(-50%, -50%);
     }
 
-    .hero-content {
+    .pane-content {
       position: absolute;
       left: 0; top: 0;
       display: flex;

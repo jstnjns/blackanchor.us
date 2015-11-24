@@ -28,11 +28,7 @@ angular
 
 
     $scope.addToCart = ->
-      console.log('addToCart', arguments)
-
-      Cart.add
-        id: $scope.variant.id
-        quantity: 1
+      Cart.add $scope.variant.id
 
 
     init = ->
@@ -60,6 +56,7 @@ angular
           content = $(response.data).find('#dynamic').html()
           trusted = $sce.trustAsHtml content
           $scope.dynamic = trusted
+          $scope.balls = 'hi'
 
 
     do init

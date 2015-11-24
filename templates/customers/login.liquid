@@ -10,7 +10,7 @@
 
             {% form 'customer_login' %}
             {% if form.errors %}
-            <div class="alert alert-error">
+            <div class="alert alert-danger">
               {% for field in form.errors %}
                 <div>{{form.errors.messages[field]}}</div>
               {% endfor %}
@@ -59,7 +59,7 @@
 
               {% form 'recover_customer_password' %}
                 {% if form.errors %}
-                <div class="alert alert-error">
+                <div class="alert alert-danger">
                   {{ form.errors | default_errors }}
                 </div>
                 {% endif %}

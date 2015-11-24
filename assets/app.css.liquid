@@ -8054,11 +8054,9 @@ body {
   font-weight: 500;
   letter-spacing: 0.04em; }
   @media (min-width: 768px) {
-    body {
-      padding-bottom: 36px; }
-      body.page-home {
-        padding-top: 0;
-        padding-bottom: 0; } }
+    body.page-home {
+      padding-top: 0;
+      padding-bottom: 0; } }
 
 h1,
 h2,
@@ -8067,6 +8065,13 @@ h4,
 h5,
 h6 {
   font-weight: 300; }
+  h1 small,
+  h2 small,
+  h3 small,
+  h4 small,
+  h5 small,
+  h6 small {
+    color: #ccc; }
 
 a,
 a:hover,
@@ -8089,6 +8094,43 @@ video {
 .flush {
   margin: 0;
   padding: 0; }
+
+.display-4,
+.display-3,
+.display-2,
+.display-1 {
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  line-height: 1.2em;
+  text-transform: uppercase; }
+
+.display-4 {
+  font-size: 6rem; }
+
+.display-3 {
+  font-size: 2.625rem; }
+
+.display-2 {
+  font-size: 2.25rem; }
+
+.display-1 {
+  font-size: 1.625rem; }
+
+@media (max-width: 768px) {
+  .display-4 {
+    font-size: 3rem; }
+  .display-3 {
+    font-size: 1.95rem; }
+  .display-2 {
+    font-size: 1.65rem; }
+  .display-1 {
+    font-size: 1.25rem; } }
+
+.text-bold {
+  font-weight: bold; }
+
+.text-upper {
+  text-transform: uppercase; }
 
 .text-default {
   color: #666; }
@@ -8354,6 +8396,9 @@ video {
   .navbar-fixed-top .navbar-collapse {
     max-height: none; } }
 
+.dropdown-menu .dropdown-menu-container {
+  padding: 0 5px; }
+
 .img-full {
   width: 100%; }
 
@@ -8361,6 +8406,8 @@ video {
   padding: 60px 0;
   background: #fff;
   color: #666; }
+  .pane hr {
+    border-color: rgba(0, 0, 0, 0.125); }
   .pane:first-of-type {
     padding-top: 110px; }
 
@@ -8378,7 +8425,7 @@ video {
   .pane-dark h6 {
     color: #eeeeee; }
   .pane-dark hr {
-    border-color: #555555; }
+    border-color: rgba(255, 255, 255, 0.5); }
 
 .pane-light {
   background: #eeeeee; }
@@ -8388,63 +8435,42 @@ video {
   .pane-medium hr {
     border-color: #777777; }
 
-.hero {
+.pane-hero {
   display: block;
   text-align: center; }
-  .hero .container {
+  .pane-hero .container {
     padding: 160px 0;
     min-height: 400px; }
     @media (max-width: 480px) {
-      .hero .container {
+      .pane-hero .container {
         padding: 80px 0;
         min-height: 0; } }
-  .hero h1,
-  .hero h2,
-  .hero h3,
-  .hero h4,
-  .hero h5,
-  .hero h6 {
-    color: inherit;
-    text-transform: uppercase; }
-  .hero h1,
-  .hero h2,
-  .hero h3 {
-    font-weight: 300;
-    letter-spacing: 0.2em; }
-  .hero h4,
-  .hero h5,
-  .hero h6 {
-    font-weight: 700;
-    letter-spacing: 0.6em; }
-  .hero h1 {
-    font-size: 72px; }
-  .hero hr {
-    width: 320px;
-    opacity: 0.25; }
-  .hero .btn {
+  .pane-hero hr {
+    width: 320px; }
+  .pane-hero .btn {
     letter-spacing: 0.2em;
     text-transform: uppercase; }
-  .hero.hero-woods {
+  .pane-hero.pane-hero-woods {
     background: #222222 url({{"hero-woods.jpg" | asset_url}}) center no-repeat;
     background-size: cover;
     color: #fff; }
-    .hero.hero-woods .container {
+    .pane-hero.pane-hero-woods .container {
       padding-bottom: 320px;
       background: url({{"hero-camera.png" | asset_url }}) center 75% no-repeat;
       background-size: 75%; }
       @media (max-width: 480px) {
-        .hero.hero-woods .container {
+        .pane-hero.pane-hero-woods .container {
           padding-bottom: 160px;
           background-position: center 85%; } }
-  .hero.hero-shop {
+  .pane-hero.pane-hero-shop {
     background: #222222 url({{"hero-shop.jpg" | asset_url}}) center no-repeat;
     background-size: cover;
     color: #fff; }
-  .hero.hero-video {
+  .pane-hero.pane-hero-video {
     position: relative;
     overflow: hidden; }
-    .hero.hero-video video,
-    .hero.hero-video img {
+    .pane-hero.pane-hero-video video,
+    .pane-hero.pane-hero-video img {
       position: absolute;
       left: 50%;
       top: 50%;
@@ -8453,7 +8479,7 @@ video {
       -webkit-transform: translate(-50%, -50%);
           -ms-transform: translate(-50%, -50%);
               transform: translate(-50%, -50%); }
-    .hero.hero-video .hero-content {
+    .pane-hero.pane-hero-video .pane-content {
       position: absolute;
       left: 0;
       top: 0;

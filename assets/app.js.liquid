@@ -15,23 +15,36 @@
   angular.module('ba.services', ['ba.services.cart']);
 
   angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
-    var init;
-    init = function() {
-      return $scope.cart = window.cart;
-    };
-    return init();
-  });
-
-  angular.module('ba.controllers.cart.mini', []).controller('cartMiniCtrl', function($scope, $http, Cart) {
     var init, onCartChange;
-    $scope.cart = [];
+    $scope.cart = {};
     init = function() {
       $scope.$on('cart:change', onCartChange);
-      return Cart.fetch();
+      return $scope.cart = Cart.cart;
     };
     onCartChange = function(event, cart) {
       return $scope.cart = cart;
     };
+    $scope.remove = Cart.remove;
+    $scope.update = Cart.update;
+    return init();
+  });
+
+  angular.module('ba.controllers.cart.mini', []).controller('cartMiniCtrl', function($scope, $http, Cart) {
+    var init, onCartAdd, onCartChange;
+    $scope.cart = {};
+    init = function() {
+      $scope.$on('cart:change', onCartChange);
+      $scope.$on('cart:add', onCartAdd);
+      return $scope.cart = Cart.cart;
+    };
+    onCartChange = function(event, cart) {
+      return $scope.cart = cart;
+    };
+    onCartAdd = function(event, product) {
+      return $scope.show = true;
+    };
+    $scope.remove = Cart.remove;
+    $scope.update = Cart.update;
     return init();
   });
 
@@ -97,11 +110,7 @@
       return variations.unique();
     };
     $scope.addToCart = function() {
-      console.log('addToCart', arguments);
-      return Cart.add({
-        id: $scope.variant.id,
-        quantity: 1
-      });
+      return Cart.add($scope.variant.id);
     };
     init = function() {
       $scope.$watch('options', onOptionsChange, true);
@@ -124,7 +133,8 @@
         var content, trusted;
         content = $(response.data).find('#dynamic').html();
         trusted = $sce.trustAsHtml(content);
-        return $scope.dynamic = trusted;
+        $scope.dynamic = trusted;
+        return $scope.balls = 'hi';
       });
     };
     return init();
@@ -132,20 +142,57 @@
 
   angular.module('ba.services.cart', []).service('Cart', function($rootScope, $http) {
     return {
-      cart: [],
+      cart: window.cart,
       fetch: function() {
-        window.CartOrig = this;
         return $http.get('/cart.js').success((function(_this) {
-          return function(data) {
-            _this.cart = data;
+          return function(response) {
+            _this.cart = response;
             return $rootScope.$broadcast('cart:change', _this.cart);
           };
         })(this));
       },
-      add: function(product) {
+      add: function(id) {
+        var product;
+        product = {
+          id: id,
+          quantity: 1
+        };
         return $http.post('/cart/add.js', product).success((function(_this) {
           return function(data) {
-            _this.cart.items.push(data);
+            _this.cart.items = _this.cart.items.map(function(item) {
+              if (item.id === data.id) {
+                return data;
+              } else {
+                return item;
+              }
+            });
+            $rootScope.$broadcast('cart:change', _this.cart);
+            return $rootScope.$broadcast('cart:add', data);
+          };
+        })(this));
+      },
+      update: function(id, quantity) {
+        var data;
+        data = {
+          updates: {}
+        };
+        data.updates[id] = quantity;
+        return $http.post('/cart/update.js', data).success((function(_this) {
+          return function(response) {
+            _this.cart = response;
+            return $rootScope.$broadcast('cart:change', _this.cart);
+          };
+        })(this));
+      },
+      remove: function(id) {
+        var data;
+        data = {
+          updates: {}
+        };
+        data.updates[id] = 0;
+        return $http.post('/cart/update.js', data).success((function(_this) {
+          return function(response) {
+            _this.cart = response;
             return $rootScope.$broadcast('cart:change', _this.cart);
           };
         })(this));

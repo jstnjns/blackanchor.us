@@ -2,13 +2,24 @@ angular
   .module 'ba.controllers.cart.mini', []
   .controller 'cartMiniCtrl', ($scope, $http, Cart) ->
 
-    $scope.cart = []
+    $scope.cart = {}
 
     init = ->
       $scope.$on 'cart:change', onCartChange
-      Cart.fetch()
+      $scope.$on 'cart:add', onCartAdd
+      $scope.cart = Cart.cart
 
-    onCartChange = (event, cart)->
+
+    onCartChange = (event, cart) ->
       $scope.cart = cart
+
+
+    onCartAdd = (event, product) ->
+      $scope.show = true
+
+
+    $scope.remove = Cart.remove
+    $scope.update = Cart.update
+
 
     do init

@@ -1,6 +1,10 @@
 {{ 'vendor.js' | asset_url | script_tag }}
 {{ 'app.js' | asset_url | script_tag }}
 
+<script type="text/javascript">
+  window.cart = {{cart | json}};
+</script>
+
 <!--[if lt IE 7 ]>
 <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
 <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
@@ -46,17 +50,6 @@
     f.parentNode.insertBefore(p, f);
   }(document));
 </script>
-
-<!-- AddShoppers Tracking Code Start -->
-<script type="text/javascript">
-  AddShoppersTracking = {
-    image: '' // add URL for custom product image (RECOMMENDED if not using Product Schema)
-  }
-  var js = document.createElement('script'); js.type = 'text/javascript'; js.async = true; js.id = 'AddShoppers';
-  js.src = ('https:' == document.location.protocol ? 'https://shop.pe' : 'http://cdn.shop.pe') + '/widget/widget_async.js#546e024ba38764546c6f6007';
-  document.getElementsByTagName("head")[0].appendChild(js);
-</script>
-<!-- AddShoppers Tracking Code End -->
 
 <!--AdRoll Start-->
 <script type="text/javascript">

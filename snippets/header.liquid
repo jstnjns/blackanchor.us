@@ -1,4 +1,4 @@
-<header id="dashboard" class="hidden-xs">
+<!-- <header id="dashboard" class="hidden-xs">
   <div class="navbar navbar-inverse navbar-fixed-bottom">
     <div class="container">
       <ul class="nav navbar-nav">
@@ -25,7 +25,7 @@
       </ul>
     </div>
   </div>
-</header>
+</header> -->
 
 <header id="header">
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -43,16 +43,8 @@
           <span class="icon-bar"></span>
         </button>
 
-        <button type="button" class="navbar-toggle"
-          ng-controller="cartMiniCtrl"
-          ng-show="cart.items.length">
-          <sup class="badge">[[cart.items.length]]</sup>
-          <i class="fa fa-cart"></i>
-        </button>
-
         <a class="navbar-brand" href="/">
           Black Anchor
-          <!-- <img src="http://blackanchorworkshop.com/wp-content/themes/blackanchorworkshop/img/brand.png" -->
         </a>
       </div>
 
@@ -145,19 +137,20 @@
 
           <li class="hidden-xs menu-item-cart"
             ng-controller="cartMiniCtrl">
-            <a href="/cart" class="dropdown-toggle"
-              data-toggle="dropdown" data-target="#">
+            <!-- [[cart]] -->
+            <a class="dropdown-toggle"
+              ng-click="show = !show"
+              ng-show="cart.items.length">
               <ng-pluralize count="cart.items.length" when="{
                 '0': '', 'NaN': '',
-                'one': '1 Item In Cart',
+                '1': '1 Item In Cart',
                 'other': '{} Items In Cart'
               }"></ng-pluralize>
-              <span class="caret"
-                ng-show="cart.items.length"></span>
+              <span class="caret"></span>
             </a>
 
             <div class="dropdown-menu text-default"
-              ng-show="cart.items.length">
+              ng-class="{ 'show': show }">
               <table class="table table-condensed">
                 <thead>
                   <tr>
@@ -181,11 +174,27 @@
                 </tbody>
                 <tfoot>
                   <th colspan="2" class="text-right">Total</th>
-                  <td>
+                  <td class="text-right">
                     [[ cart.total_price/100 | currency ]]
                   </td>
                 </tfoot>
               </table>
+
+              <div class="dropdown-menu-container">
+                <div class="row">
+                  <div class="col-sm-5">
+                    <a href="/cart" class="btn btn-default btn-rounded btn-block">
+                      Update
+                    </a>
+                  </div>
+
+                  <div class="col-sm-7">
+                    <a href="/cart" class="btn btn-primary btn-outline btn-rounded btn-block">
+                      Checkout
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </li>
         </ul>

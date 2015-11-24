@@ -1,84 +1,94 @@
-<div class="pane" ng-controller="productCtrl">
-  <div class="container">
-    <div class="row row-centered">
-      <div class="col-sm-8">
-        <div class="row">
-          <div class="col-sm-12">
-            <figure class="product-image image">
-              <img class="img-responsive"
-                ng-src="[[ variant.featured_image.src || product.featured_image ]]">
-            </figure>
+<div ng-controller="productCtrl">
+  <div class="pane">
+    <div class="container">
+      <div class="row row-centered">
+        <div class="col-sm-8">
+          <div class="row">
+            <div class="col-sm-12">
+              <figure class="product-image image">
+                <img class="img-responsive"
+                  ng-src="[[ variant.featured_image.src || product.featured_image ]]">
+              </figure>
+            </div>
           </div>
+        </div>
+
+        <div class="col-sm-4 text-center">
+          <section>
+            <header>
+              <h1>
+                [[ product.title ]]
+                <small ng-show="variant.price_varies">
+                  [[ variant.price_min/100 | currency ]] -
+                  [[ variant.price_max/100 | currency ]]
+                </small>
+                <small ng-hide="variant.price_varies">
+                  [[ variant.price/100 | currency ]]
+                </small>
+              </h1>
+            </header>
+
+            <div class="content">
+              <hr>
+
+              <form ng-submit="addToCart(variant)">
+                <div ng-if="product.variants.length > 1">
+                  <div class="form-group"
+                    ng-repeat="(i, option) in product.options">
+                    <label>[[option]]</label>
+
+                    <div class="btn-group">
+                      <div class="btn btn-default"
+                        ng-repeat="v in variationsFor(option)"
+                        ng-click="options[i] = v"
+                        ng-class="{
+                          'active': options[i] == v
+                        }">
+                        [[v]]
+                      </div>
+                    </div>
+                    <!-- <select class="form-control input-lg"
+                      ng-options="v for v in variationsFor(option)"
+                      ng-model="options[i]"></select> -->
+                  </div>
+                </div>
+
+                {% if product.available %}
+
+                <input type="hidden" name="id" value="[[variant.id]]">
+
+                <button type="submit" class="btn btn-primary btn-outline btn-rounded btn-lg btn-block">
+                  Purchase
+                </button>
+
+                {% else %}
+
+                <p class="text-warning">
+                  The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch subscribe to the newsletter.
+                </p>
+
+                <hr>
+
+                {% include 'newsletter' %}
+
+                {% endif %}
+
+              </form>
+            </div>
+          </section>
         </div>
       </div>
 
-      <div class="col-sm-4 text-center">
-        <section>
-          <header>
-            <h1>[[ product.title ]]</h1>
-            <h3 class="text-muted">
-              <span ng-show="variant.price_varies">
-                [[ variant.price_min/100 | currency ]] -
-                [[ variant.price_max/100 | currency ]]
-              </span>
-              <span ng-hide="variant.price_varies">
-                [[ variant.price/100 | currency ]]
-              </span>
-            </h3>
-          </header>
-
-          <div class="content">
-            <hr>
-
-            <form ng-submit="addToCart(variant)">
-              <div ng-if="product.variants.length > 1">
-                <div class="form-group"
-                  ng-repeat="(i, option) in product.options">
-                  <label>[[option]]</label>
-
-                  <select class="form-control input-lg"
-                    ng-options="v for v in variationsFor(option)"
-                    ng-model="options[i]"></select>
-                </div>
-              </div>
-
-              {% if product.available %}
-
-              <input type="hidden" name="id" value="[[variant.id]]">
-
-              <button type="submit" class="btn btn-primary btn-outline btn-rounded btn-lg btn-block">
-                Purchase
-              </button>
-
-              {% else %}
-
-              <p class="text-warning">
-                The {{ product.title | replace_first: 'The ','' }} will be available soon. To reserve this item for it's next launch subscribe to the newsletter.
-              </p>
-
-              <hr>
-
-              {% include 'newsletter' %}
-
-              {% endif %}
-
-            </form>
-          </div>
-        </section>
-      </div>
-    </div>
-
-    <hr>
-
-    <div class="row">
-      <div class="col-sm-offset-1 col-sm-10">
-        {{ product.description }}
+      <div class="row">
+        <div class="col-sm-offset-1 col-sm-10">
+          {{ product.description }}
+        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div ng-bind-html="dynamic"></div>
+  <div ng-bind-html="dynamic"></div>
+</div>
 
 
 <script>
