@@ -31,7 +31,7 @@
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed"
+        <a class="navbar-toggle collapsed"
           data-toggle="collapse"
           data-target="#navbar-collapse"
           aria-expanded="false">
@@ -41,7 +41,14 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-        </button>
+        </a>
+
+        <a href="/cart" class="navbar-toggle navbar-cart"
+          ng-controller="cartCtrl"
+          ng-show="cart.item_count">
+          <i class="fa fa-shopping-cart fa-lg"></i>
+          <span class="badge">[[ cart.item_count ]]</span>
+        </a>
 
         <a class="navbar-brand" href="/">
           Black Anchor
@@ -136,13 +143,11 @@
           {% endif %}
 
           <li class="hidden-xs menu-item-cart"
-            ng-controller="cartMiniCtrl">
-            <!-- [[cart]] -->
+            ng-controller="cartCtrl">
             <a class="dropdown-toggle"
-              ng-click="show = !show"
-              ng-show="cart.items.length">
-              <ng-pluralize count="cart.items.length" when="{
-                '0': '', 'NaN': '',
+              ng-click="show = !show">
+              <ng-pluralize count="cart.item_count" when="{
+                '0': 'Empty Cart', 'NaN': '',
                 '1': '1 Item In Cart',
                 'other': '{} Items In Cart'
               }"></ng-pluralize>
@@ -162,7 +167,9 @@
                 <tbody>
                   <tr ng-repeat="item in cart.items">
                     <td>
+                      <a ng-click="update(item.id, item.quantity-1)">-</a>
                       [[item.quantity]]
+                      <a ng-click="update(item.id, item.quantity+1)">+</a>
                     </td>
                     <td>
                       [[item.title]]

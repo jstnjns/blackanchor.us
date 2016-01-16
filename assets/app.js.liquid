@@ -10,26 +10,11 @@
     return $(document.body).addClass("section-" + section + " page-" + path);
   });
 
-  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart', 'ba.controllers.cart.mini']);
+  angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
 
   angular.module('ba.services', ['ba.services.cart']);
 
   angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
-    var init, onCartChange;
-    $scope.cart = {};
-    init = function() {
-      $scope.$on('cart:change', onCartChange);
-      return $scope.cart = Cart.cart;
-    };
-    onCartChange = function(event, cart) {
-      return $scope.cart = cart;
-    };
-    $scope.remove = Cart.remove;
-    $scope.update = Cart.update;
-    return init();
-  });
-
-  angular.module('ba.controllers.cart.mini', []).controller('cartMiniCtrl', function($scope, $http, Cart) {
     var init, onCartAdd, onCartChange;
     $scope.cart = {};
     init = function() {
@@ -158,16 +143,20 @@
           quantity: 1
         };
         return $http.post('/cart/add.js', product).success((function(_this) {
-          return function(data) {
-            _this.cart.items = _this.cart.items.map(function(item) {
-              if (item.id === data.id) {
-                return data;
-              } else {
-                return item;
+          return function(response) {
+            var match;
+            match = _this.cart.items.filter(function(item, index) {
+              console.log(item.id, response.id);
+              if (item.id === response.id) {
+                return this.cart.items[index] = response;
               }
             });
-            $rootScope.$broadcast('cart:change', _this.cart);
-            return $rootScope.$broadcast('cart:add', data);
+            if (!match.length) {
+              _this.cart.items.push(response);
+            }
+            _this._calculateTotals();
+            _this._broadcastChanage();
+            return $rootScope.$broadcast('cart:add', response);
           };
         })(this));
       },
@@ -196,6 +185,17 @@
             return $rootScope.$broadcast('cart:change', _this.cart);
           };
         })(this));
+      },
+      _calculateTotals: function() {
+        this.cart.item_count = 0;
+        this.cart.total_price = 0;
+        return this.cart.items.forEach(function(item) {
+          this.cart.item_count += item.quantity;
+          return this.cart.total_price += item.line_price;
+        });
+      },
+      _broadcastChanage: function() {
+        return $rootScope.$broadcast('cart:change', this.cart);
       }
     };
   });

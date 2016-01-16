@@ -39,28 +39,37 @@
                   <div class="col-sm-10">
                     <h3 class="flush">
                       <a href="[[item.url]]">
-                        [[ item.title ]]
+                        [[ item.product_title ]]
                       </a>
 
                       <small>
                         [[ item.price/100 | currency ]]
                       </small>
                     </h3>
+
+                    <h5 class="flush text-muted">
+                      [[ item.variant_title ]]
+                    </h5>
                   </div>
                 </div>
               </td>
 
               <td class="quantity">
                 <div class="input-group input-group-sm">
-                  <input type="text" class="form-control"
+                  <span class="input-group-btn">
+                    <a class="btn btn-default"
+                      ng-click="update(item.id, item.quantity-1)">-</a>
+                  </span>
+
+                  <input type="text" class="form-control text-center"
                     name="updates[]" id="updates_{{ item.id }}"
                     ng-model="item.quantity"
                     ng-change="update(item.id, item.quantity)">
 
                   <span class="input-group-btn">
-                    <a class="btn btn-danger btn-remove"
-                      ng-click="remove(item.id)">
-                      <i class="fa fa-times"></i>
+                    <a class="btn btn-default"
+                      ng-click="update(item.id, item.quantity+1)">
+                      +
                     </a>
                   </span>
                 </div>

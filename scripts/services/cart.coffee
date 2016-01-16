@@ -21,17 +21,18 @@ angular
 
       $http
         .post '/cart/add.js', product
-        .success (data) =>
-          # If there is already a line item for this product
-            # Replaced line item with response data
-          # Else
-            # Add new line item with response data
+        .success (response) =>
 
-          @cart.items =
-            @cart.items.map (item) -> if item.id is data.id then data else item
+          match = @cart.items.filter (item, index) ->
+            console.log item.id, response.id
+            @cart.items[index] = response if item.id is response.id
 
-          $rootScope.$broadcast 'cart:change', @cart
-          $rootScope.$broadcast 'cart:add', data
+          if !match.length then @cart.items.push response
+
+          do @_calculateTotals
+          do @_broadcastChanage
+
+          $rootScope.$broadcast 'cart:add', response
 
 
     update: (id, quantity) ->
@@ -56,3 +57,16 @@ angular
           @cart = response
 
           $rootScope.$broadcast 'cart:change', @cart
+
+
+    _calculateTotals: ->
+      @cart.item_count = 0
+      @cart.total_price = 0
+
+      @cart.items.forEach (item) ->
+        @cart.item_count += item.quantity
+        @cart.total_price += item.line_price
+
+
+    _broadcastChanage: ->
+      $rootScope.$broadcast 'cart:change', @cart

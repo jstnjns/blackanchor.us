@@ -138,9 +138,14 @@ video {
   align-items: flex-end;
 }
 
-.row-flush {
-  // margin: 0;
+// @media (max-width: $screen-xs) {
+//   [class*="col-"] {
+//     padding-top: $grid-gutter-width / 4;
+//     padding-bottom: $grid-gutter-width / 4;
+//   }
+// }
 
+.row-flush {
   $breaks: xs sm md lg;
 
   @for $size from 1 through $grid-columns {
@@ -148,6 +153,10 @@ video {
       .col-#{$break}-#{$size} { padding: 0; }
     }
   }
+}
+
+.col-flush {
+  padding: 0;
 }
 
 .btn-inverse {
@@ -241,6 +250,10 @@ video {
   }
 }
 
+.navbar-cart {
+  padding-top: 6px; padding-bottom: 6px;
+}
+
 .dropdown-menu {
   .dropdown-menu-container {
     padding: 0 5px;
@@ -252,7 +265,9 @@ video {
 }
 
 .pane {
+  position: relative;
   padding: ($line-height-computed * 3) 0;
+  z-index: 1;
 
   background: $white;
 
@@ -260,10 +275,6 @@ video {
 
   hr {
     border-color: fade-out($black, 0.875);
-  }
-
-  &:first-of-type {
-    padding-top: $line-height-computed * 3 + $header-height;
   }
 }
 
@@ -273,6 +284,7 @@ video {
 
 .pane-dark {
   background: $gray-dark;
+  box-shadow: none;
   color: $gray-lighter;
 
   h1,
@@ -291,10 +303,12 @@ video {
 
 .pane-light {
   background: $gray-lighter;
+  box-shadow: none;
 }
 
 .pane-medium {
   background: mix($gray-light, $gray-lighter, 50%);
+  box-shadow: none;
 
   hr {
     border-color: $gray-light;
@@ -402,7 +416,6 @@ video {
       width: 100%; height: 100%;
       z-index: 1;
 
-      // background: url('{{"pattern-overlay.jpg" | asset_url}}') center repeat;
       background: rgba(0,0,0,0.5);
 
       color: $white;
