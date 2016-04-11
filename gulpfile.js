@@ -29,7 +29,9 @@ gulp.task('vendor', function() {
   return gulp.src([
       './node_modules/underscore/underscore.js',
       './node_modules/angular/angular.js',
-      './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'
+      './node_modules/bootstrap-sass/assets/javascripts/bootstrap.js',
+      './node_modules/imagesloaded/imagesloaded.pkgd.js',
+      './assets/imagefill.js'
     ])
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./assets'));

@@ -10,11 +10,12 @@ $navbar-inverse-border: $black;
 
 $line-height-base: 2;
 
-@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
-@import './type.scss';
-
 $dashboard-height: 36px;
 $header-height: 50px;
+
+@import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
+@import './type.scss';
+@import './pane.scss';
 
 html,
 body,
@@ -263,165 +264,6 @@ video {
 
 .img-full {
   width: 100%;
-}
-
-.pane {
-  position: relative;
-  padding: ($line-height-computed * 3) 0;
-  z-index: 1;
-
-  background: $white;
-
-  color: $text-color;
-
-  hr {
-    border-color: fade-out($black, 0.875);
-  }
-}
-
-.pane-flush {
-  padding: 0 !important;
-}
-
-.pane-dark {
-  background: $gray-dark;
-  box-shadow: none;
-  color: $gray-lighter;
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: $gray-lighter;
-  }
-
-  hr {
-    border-color: fade-out($white, 0.5);
-  }
-}
-
-.pane-light {
-  background: $gray-lighter;
-  box-shadow: none;
-}
-
-.pane-medium {
-  background: mix($gray-light, $gray-lighter, 50%);
-  box-shadow: none;
-
-  hr {
-    border-color: $gray-light;
-  }
-}
-
-
-.pane-hero {
-  display: block;
-
-  text-align: center;
-
-  .container {
-    padding: 160px 0;
-    min-height: 400px;
-
-    @media (max-width: $screen-xs) {
-      padding: 80px 0;
-      min-height: 0;
-    }
-  }
-
-  // h1,
-  // h2,
-  // h3,
-  // h4,
-  // h5,
-  // h6 {
-  //   color: inherit;
-
-  //   text-transform: uppercase;
-  // }
-
-  // h1,
-  // h2,
-  // h3 {
-  //   font-weight: 300;
-  //   letter-spacing: 0.2em;
-  // }
-
-  // h4,
-  // h5,
-  // h6 {
-  //   font-weight: 700;
-  //   letter-spacing: 0.6em;
-  // }
-
-  // h1 { font-size: 72px; }
-
-  hr {
-    width: 320px;
-    // opacity: 0.25;
-  }
-
-  .btn {
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  &.pane-hero-woods {
-    background: $gray-darker url('{{"hero-woods.jpg" | asset_url}}') center no-repeat;
-    background-size: cover;
-
-    color: $white;
-
-    .container {
-      padding-bottom: 320px;
-
-      background: url('{{"hero-camera.png" | asset_url }}') center 75% no-repeat;
-      background-size: 75%;
-
-      @media (max-width: $screen-xs) {
-        padding-bottom: 160px;
-
-        background-position: center 85%;
-      }
-    }
-  }
-
-  &.pane-hero-shop {
-    background: $gray-darker url('{{"hero-shop.jpg" | asset_url}}') center no-repeat;
-    background-size: cover;
-
-    color: $white;
-  }
-
-  &.pane-hero-video {
-    position: relative;
-    overflow: hidden;
-
-    video,
-    img {
-      position: absolute;
-      left: 50%; top: 50%;
-      min-width: 100%; height: 100%;
-      transform: translate(-50%, -50%);
-    }
-
-    .pane-content {
-      position: absolute;
-      left: 0; top: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%; height: 100%;
-      z-index: 1;
-
-      background: rgba(0,0,0,0.5);
-
-      color: $white;
-    }
-  }
 }
 
 .menu-item-cart {

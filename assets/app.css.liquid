@@ -8041,6 +8041,111 @@ button.close {
   font-style: normal;
   src: url({{"fontawesome-webfont.woff" | asset_url}}) format("woff"); }
 
+.pane {
+  position: relative;
+  padding: 84px 0;
+  z-index: 1;
+  background: #fff;
+  color: #666; }
+  .pane hr {
+    border-color: rgba(0, 0, 0, 0.125); }
+
+.pane-flush {
+  padding: 0 !important; }
+
+.pane-dark {
+  background: #333333;
+  box-shadow: none;
+  color: #eeeeee; }
+  .pane-dark h1,
+  .pane-dark h2,
+  .pane-dark h3,
+  .pane-dark h4,
+  .pane-dark h5,
+  .pane-dark h6 {
+    color: #eeeeee; }
+  .pane-dark hr {
+    border-color: rgba(255, 255, 255, 0.5); }
+
+.pane-light {
+  background: #eeeeee;
+  box-shadow: none; }
+
+.pane-medium {
+  background: #b3b3b3;
+  box-shadow: none; }
+  .pane-medium hr {
+    border-color: #777777; }
+
+.pane-img > img {
+  max-width: none; }
+
+.pane-hero {
+  display: block;
+  text-align: center; }
+  .pane-hero .container {
+    padding: 160px 0;
+    min-height: 400px; }
+    @media (max-width: 480px) {
+      .pane-hero .container {
+        padding: 80px 0;
+        min-height: 0; } }
+  .pane-hero hr {
+    width: 320px; }
+  .pane-hero .btn {
+    letter-spacing: 0.2em;
+    text-transform: uppercase; }
+  .pane-hero.pane-hero-woods {
+    background: #222222 url({{"hero-woods.jpg" | asset_url}}) center no-repeat;
+    background-size: cover;
+    color: #fff; }
+    .pane-hero.pane-hero-woods .container {
+      padding-bottom: 320px;
+      background: url({{"hero-camera.png" | asset_url }}) center 75% no-repeat;
+      background-size: 75%; }
+      @media (max-width: 480px) {
+        .pane-hero.pane-hero-woods .container {
+          padding-bottom: 160px;
+          background-position: center 85%; } }
+  .pane-hero.pane-hero-shop {
+    background: #222222 url({{"hero-shop.jpg" | asset_url}}) center no-repeat;
+    background-size: cover;
+    color: #fff; }
+  .pane-hero.pane-hero-video {
+    position: relative;
+    overflow: hidden; }
+    .pane-hero.pane-hero-video video,
+    .pane-hero.pane-hero-video img {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      min-width: 100%;
+      height: 100%;
+      -webkit-transform: translate(-50%, -50%);
+          -ms-transform: translate(-50%, -50%);
+              transform: translate(-50%, -50%); }
+    .pane-hero.pane-hero-video .pane-content {
+      position: absolute;
+      left: 0;
+      top: 0;
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-pack: center;
+      -webkit-justify-content: center;
+          -ms-flex-pack: center;
+              justify-content: center;
+      -webkit-box-align: center;
+      -webkit-align-items: center;
+          -ms-flex-align: center;
+              align-items: center;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff; }
+
 html,
 body,
 #wrap {
@@ -8408,108 +8513,6 @@ video {
 
 .img-full {
   width: 100%; }
-
-.pane {
-  position: relative;
-  padding: 84px 0;
-  z-index: 1;
-  background: #fff;
-  color: #666; }
-  .pane hr {
-    border-color: rgba(0, 0, 0, 0.125); }
-
-.pane-flush {
-  padding: 0 !important; }
-
-.pane-dark {
-  background: #333333;
-  box-shadow: none;
-  color: #eeeeee; }
-  .pane-dark h1,
-  .pane-dark h2,
-  .pane-dark h3,
-  .pane-dark h4,
-  .pane-dark h5,
-  .pane-dark h6 {
-    color: #eeeeee; }
-  .pane-dark hr {
-    border-color: rgba(255, 255, 255, 0.5); }
-
-.pane-light {
-  background: #eeeeee;
-  box-shadow: none; }
-
-.pane-medium {
-  background: #b3b3b3;
-  box-shadow: none; }
-  .pane-medium hr {
-    border-color: #777777; }
-
-.pane-hero {
-  display: block;
-  text-align: center; }
-  .pane-hero .container {
-    padding: 160px 0;
-    min-height: 400px; }
-    @media (max-width: 480px) {
-      .pane-hero .container {
-        padding: 80px 0;
-        min-height: 0; } }
-  .pane-hero hr {
-    width: 320px; }
-  .pane-hero .btn {
-    letter-spacing: 0.2em;
-    text-transform: uppercase; }
-  .pane-hero.pane-hero-woods {
-    background: #222222 url({{"hero-woods.jpg" | asset_url}}) center no-repeat;
-    background-size: cover;
-    color: #fff; }
-    .pane-hero.pane-hero-woods .container {
-      padding-bottom: 320px;
-      background: url({{"hero-camera.png" | asset_url }}) center 75% no-repeat;
-      background-size: 75%; }
-      @media (max-width: 480px) {
-        .pane-hero.pane-hero-woods .container {
-          padding-bottom: 160px;
-          background-position: center 85%; } }
-  .pane-hero.pane-hero-shop {
-    background: #222222 url({{"hero-shop.jpg" | asset_url}}) center no-repeat;
-    background-size: cover;
-    color: #fff; }
-  .pane-hero.pane-hero-video {
-    position: relative;
-    overflow: hidden; }
-    .pane-hero.pane-hero-video video,
-    .pane-hero.pane-hero-video img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      min-width: 100%;
-      height: 100%;
-      -webkit-transform: translate(-50%, -50%);
-          -ms-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%); }
-    .pane-hero.pane-hero-video .pane-content {
-      position: absolute;
-      left: 0;
-      top: 0;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-          -ms-flex-align: center;
-              align-items: center;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff; }
 
 .menu-item-cart .dropdown-menu {
   width: 300px; }
