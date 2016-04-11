@@ -1,94 +1,80 @@
-<div class="page-header">
-  <h4 class="title">Blog</h4>
+<div class="pane pane-flush pane-hero" style="background-image:url({{ article | img_url: 'original' }});"></div>
 
-  {% if blog.next_article %}
-    {% capture next_url %}{{ blog.next_article }}#content{% endcapture %}
-    {{ '&larr; Next Post' | link_to: next_url }}
-  {% endif %}
+<div class="pane">
+  <div class="container">
+    <div class="row row-centered">
+      <div class="col-xs-12">
+        <section>
+          <header class="header text-center">
+            <h1 class="flush">{{ article.title }}</h1>
+            <p class="text-muted">{{ article.published_at | date: "%d %b %Y" }}</p>
+          </header>
 
-  {% if blog.previous_article %}
-    {% capture prev_url %}{{ blog.previous_article }}#content{% endcapture %}
-    {{ 'Previous Post &rarr;' | link_to: prev_url }}
-  {% endif %}
-</div>
+          <hr>
 
-<article>
-  <header>
-    <h2>{{ article.title }}</h2>
+          <div class="content">
+            {{ article.content }}
+          </div>
+        </section>
 
-    <p><small>
-      Posted {{ article.published_at | date: "%B %d, %Y" }}
-      By {{ article.author }}
-      {% if blog.comments_enabled? %}
-        {% if article.comments.size > 0 %}
-          With
-          <a href="{{article.url}}#comments">
-            {{ article.comments.size }} {{ article.comments.size | pluralize: 'comment', 'comments'}}
-          </a>
-        {% endif %}
-      {% endif %}  
-    </small></p>
-  </header>
+        <!-- <section id="comments">
+          {% if blog.comments_enabled? %}
+            {% paginate article.comments by 100 %}
+            {% if article.comments.size > 0 %}
+              Comments
+              {% for comment in article.comments reversed %}
+                {% include 'comments' %}
+              {% endfor %}
+              {% if comment and comment.created_at %}
+                {% include 'comments' %}
+              {% endif %}
 
-  <div>
-    {{ article.content }}
+              {% include 'pagination' %}
+            {% endif %}
+            {% endpaginate %}
+
+            {% form article %}
+              Leave a comment
+              {% if form.posted_successfully? %}
+                {% if blog.moderated? %}
+                  Successfully posted your comment. It will have to be approved by the blog owner first before showing up.
+                {% else %}
+                  Successfully posted your comment.
+                {% endif %}
+              {% endif %}
+
+              {% if form.errors %}
+                Not all the fields have been filled out correctly!
+              {% endif %}
+
+              <div class="control-group {% if form.errors contains 'author' %}error{% endif %}">
+                <label for="comment_author" class="control-label">Your name</label>
+                <div class="controls">
+                  <input type="text" value="{{form.author}}" name="comment[author]" id="comment_author" class="input-xlarge">
+                </div>
+              </div>
+              <div class="control-group {% if form.errors contains 'email' %}error{% endif %}">
+                <label for="comment_email" class="control-label">Your email</label>
+                <div class="controls">
+                  <input type="text" value="{{form.email}}" id="comment_email" name="comment[email]" class="input-xlarge">
+                </div>
+              </div>
+              <div class="control-group {% if form.errors contains 'body' %}error{% endif %}">
+                <label for="comment_body" class="control-label">Your comment</label>
+                <div class="controls">
+                  <textarea rows="3" id="comment_body" name="comment[body]" class="input-xlarge">{{form.body}}</textarea>
+                </div>
+              </div>
+
+              {% if blog.moderated? %}
+                Comments have to be approved before showing up.
+              {% endif %}
+
+              <input type="submit" class="btn btn-primary" value="Post comment" />
+            {% endform %}
+          {% endif %}
+        </section> -->
+      </div>
+    </div>
   </div>
-</article>
-
-<section id="comments">
-  {% if blog.comments_enabled? %}
-    {% paginate article.comments by 100 %}
-    {% if article.comments.size > 0 %}
-      Comments
-      {% for comment in article.comments reversed %}
-        {% include 'comments' %}
-      {% endfor %}      
-      {% if comment and comment.created_at %}
-        {% include 'comments' %}
-      {% endif %}
-
-      {% include 'pagination' %}
-    {% endif %}
-    {% endpaginate %}
-
-    {% form article %}
-      Leave a comment
-      {% if form.posted_successfully? %}
-        {% if blog.moderated? %}
-          Successfully posted your comment. It will have to be approved by the blog owner first before showing up.
-        {% else %}
-          Successfully posted your comment.
-        {% endif %}
-      {% endif %}
-
-      {% if form.errors %}
-        Not all the fields have been filled out correctly!
-      {% endif %}
-
-      <div class="control-group {% if form.errors contains 'author' %}error{% endif %}">
-        <label for="comment_author" class="control-label">Your name</label>
-        <div class="controls">
-          <input type="text" value="{{form.author}}" name="comment[author]" id="comment_author" class="input-xlarge">
-        </div>
-      </div>
-      <div class="control-group {% if form.errors contains 'email' %}error{% endif %}">
-        <label for="comment_email" class="control-label">Your email</label>
-        <div class="controls">
-          <input type="text" value="{{form.email}}" id="comment_email" name="comment[email]" class="input-xlarge">
-        </div>
-      </div>
-      <div class="control-group {% if form.errors contains 'body' %}error{% endif %}">
-        <label for="comment_body" class="control-label">Your comment</label>
-        <div class="controls">
-          <textarea rows="3" id="comment_body" name="comment[body]" class="input-xlarge">{{form.body}}</textarea>
-        </div>
-      </div>
-        
-      {% if blog.moderated? %}
-        Comments have to be approved before showing up.
-      {% endif %}
-
-      <input type="submit" class="btn btn-primary" value="Post comment" />
-    {% endform %}
-  {% endif %}
-</section>
+</div>

@@ -8,6 +8,7 @@ $navbar-default-bg: rgba(255,255,255,0.9);
 $navbar-inverse-bg: rgba(0,0,0,0.8);
 $navbar-inverse-border: $black;
 
+$line-height-base: 2;
 
 @import '../node_modules/bootstrap-sass/assets/stylesheets/bootstrap';
 @import './type.scss';
