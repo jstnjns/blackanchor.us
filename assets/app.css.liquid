@@ -8053,23 +8053,44 @@ button.close {
 .pane-flush {
   padding: 0 !important; }
 
-.pane-dark {
+.pane-dark,
+.pane-black {
   background: #333333;
   box-shadow: none;
   color: #eeeeee; }
   .pane-dark h1,
+  .pane-dark .h1,
   .pane-dark h2,
+  .pane-dark .h2,
   .pane-dark h3,
+  .pane-dark .h3,
   .pane-dark h4,
+  .pane-dark .h4,
   .pane-dark h5,
-  .pane-dark h6 {
+  .pane-dark .h5,
+  .pane-dark h6,
+  .pane-dark .h6,
+  .pane-black h1, .pane-black .h1,
+  .pane-black h2, .pane-black .h2,
+  .pane-black h3, .pane-black .h3,
+  .pane-black h4, .pane-black .h4,
+  .pane-black h5, .pane-black .h5,
+  .pane-black h6, .pane-black .h6 {
     color: #eeeeee; }
-  .pane-dark hr {
+  .pane-dark hr,
+  .pane-black hr {
     border-color: rgba(255, 255, 255, 0.5); }
 
-.pane-light {
+.pane-black {
+  background: #000; }
+
+.pane-light,
+.pane-white {
   background: #eeeeee;
   box-shadow: none; }
+
+.pane-white {
+  background: #fff; }
 
 .pane-medium {
   background: #b3b3b3;
@@ -8078,73 +8099,47 @@ button.close {
     border-color: #777777; }
 
 .pane-img > img {
-  max-width: none; }
+  max-width: none;
+  opacity: 1;
+  -webkit-transition: opacity 1s ease;
+          transition: opacity 1s ease; }
+  .pane-img > img.loading {
+    opacity: 0;
+    -webkit-transition: none;
+            transition: none; }
 
-.pane-hero {
+.pane-dim > img,
+.pane-dim > video {
+  opacity: 0.5; }
+
+[class*="pane-window"] {
   display: block;
+  padding: 0;
   text-align: center; }
-  .pane-hero .container {
-    padding: 160px 0;
-    min-height: 400px; }
-    @media (max-width: 480px) {
-      .pane-hero .container {
-        padding: 80px 0;
-        min-height: 0; } }
-  .pane-hero hr {
-    width: 320px; }
-  .pane-hero .btn {
+  [class*="pane-window"] .pane-content {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+        -ms-flex-align: center;
+            align-items: center;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff; }
+  [class*="pane-window"] .btn {
     letter-spacing: 0.2em;
     text-transform: uppercase; }
-  .pane-hero.pane-hero-woods {
-    background: #222222 url({{"hero-woods.jpg" | asset_url}}) center no-repeat;
-    background-size: cover;
-    color: #fff; }
-    .pane-hero.pane-hero-woods .container {
-      padding-bottom: 320px;
-      background: url({{"hero-camera.png" | asset_url }}) center 75% no-repeat;
-      background-size: 75%; }
-      @media (max-width: 480px) {
-        .pane-hero.pane-hero-woods .container {
-          padding-bottom: 160px;
-          background-position: center 85%; } }
-  .pane-hero.pane-hero-shop {
-    background: #222222 url({{"hero-shop.jpg" | asset_url}}) center no-repeat;
-    background-size: cover;
-    color: #fff; }
-  .pane-hero.pane-hero-video {
-    position: relative;
-    overflow: hidden; }
-    .pane-hero.pane-hero-video video,
-    .pane-hero.pane-hero-video img {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      min-width: 100%;
-      height: 100%;
-      -webkit-transform: translate(-50%, -50%);
-          -ms-transform: translate(-50%, -50%);
-              transform: translate(-50%, -50%); }
-    .pane-hero.pane-hero-video .pane-content {
-      position: absolute;
-      left: 0;
-      top: 0;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -ms-flexbox;
-      display: flex;
-      -webkit-box-pack: center;
-      -webkit-justify-content: center;
-          -ms-flex-pack: center;
-              justify-content: center;
-      -webkit-box-align: center;
-      -webkit-align-items: center;
-          -ms-flex-align: center;
-              align-items: center;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      background: rgba(0, 0, 0, 0.5);
-      color: #fff; }
 
 html,
 body,
@@ -8189,6 +8184,9 @@ img {
 
 video {
   vertical-align: top; }
+
+hr {
+  max-width: 320px; }
 
 .ng-cloak {
   display: none; }

@@ -1,52 +1,11 @@
 (function() {
-  angular.module('ba', ['ba.controllers', 'ba.services']).config(function($interpolateProvider) {
+  angular.module('ba', ['ba.controllers', 'ba.directives', 'ba.services']).config(function($interpolateProvider) {
     return $interpolateProvider.startSymbol('[[').endSymbol(']]');
   });
 
   angular.module('ba.controllers', ['ba.controllers.home', 'ba.controllers.product', 'ba.controllers.cart']);
 
-  angular.module('ba.services', ['ba.services.cart']);
-
-  $(function() {
-    var components, path, pathname, section;
-    pathname = window.location.pathname.substr(1);
-    components = pathname.split('/');
-    path = components.join('--') || 'home';
-    section = components[0] || 'home';
-    $(document.body).addClass("section-" + section + " page-" + path);
-    return $('.pane-img').imagefill();
-  });
-
-  angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
-    var init, onCartAdd, onCartChange;
-    $scope.cart = {};
-    init = function() {
-      $scope.$on('cart:change', onCartChange);
-      $scope.$on('cart:add', onCartAdd);
-      return $scope.cart = Cart.cart;
-    };
-    onCartChange = function(event, cart) {
-      return $scope.cart = cart;
-    };
-    onCartAdd = function(event, product) {
-      return $scope.show = true;
-    };
-    $scope.remove = Cart.remove;
-    $scope.update = Cart.update;
-    return init();
-  });
-
-  angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope, $http, $sce, $window) {
-    $http.get('/pages/home').then(function(response) {
-      var content, trusted;
-      content = $(response.data).find('#dynamic').html();
-      trusted = $sce.trustAsHtml(content);
-      return $scope.dynamic = trusted;
-    });
-    return $(window).on('resize', function(event) {
-      return $scope.height = this.innerHeight;
-    }).trigger('resize');
-  });
+  angular.module('ba.directives', ['ba.directives.compile', 'ba.directives.pane.img', 'ba.directives.pane.video', 'ba.directives.pane.window']);
 
   Array.prototype.unique = function() {
     var j, key, output, ref, results, value;
@@ -83,6 +42,44 @@
       return this[this.length + n];
     }
   };
+
+  angular.module('ba.services', ['ba.services.cart']);
+
+  $(function() {
+    var components, path, pathname, section;
+    pathname = window.location.pathname.substr(1);
+    components = pathname.split('/');
+    path = components.join('--') || 'home';
+    section = components[0] || 'home';
+    return $(document.body).addClass("section-" + section + " page-" + path);
+  });
+
+  angular.module('ba.controllers.cart', []).controller('cartCtrl', function($scope, $http, Cart) {
+    var init, onCartAdd, onCartChange;
+    $scope.cart = {};
+    init = function() {
+      $scope.$on('cart:change', onCartChange);
+      $scope.$on('cart:add', onCartAdd);
+      return $scope.cart = Cart.cart;
+    };
+    onCartChange = function(event, cart) {
+      return $scope.cart = cart;
+    };
+    onCartAdd = function(event, product) {
+      return $scope.show = true;
+    };
+    $scope.remove = Cart.remove;
+    $scope.update = Cart.update;
+    return init();
+  });
+
+  angular.module('ba.controllers.home', []).controller('homeCtrl', function($scope, $http) {
+    return $http.get('/pages/home').then(function(response) {
+      var content;
+      content = $(response.data).find('#dynamic').html();
+      return $scope.dynamic = content;
+    });
+  });
 
   angular.module('ba.controllers.product', []).controller('productCtrl', function($scope, $http, $sce, $window, Cart) {
     var getDynamicContent, init, onOptionsChange, variantFor;
@@ -126,6 +123,59 @@
       });
     };
     return init();
+  });
+
+  angular.module('ba.directives.compile', []).directive('compile', function($compile) {
+    return {
+      restrict: 'A',
+      replace: true,
+      scope: {
+        compile: '='
+      },
+      link: function($scope, $elm, $attrs) {
+        return $scope.$watch('compile', function(html) {
+          $elm.html(html);
+          return $compile($elm.contents())($scope);
+        });
+      }
+    };
+  });
+
+  angular.module('ba.directives.pane.img', []).directive('paneImg', function() {
+    return {
+      restrict: 'C',
+      link: function($scope, $elm, $attrs) {
+        $elm.imagefill();
+        return $(window).trigger('resize');
+      }
+    };
+  });
+
+  angular.module('ba.directives.pane.video', []).directive('paneVideo', function() {
+    return {
+      restrict: 'C',
+      link: function($scope, $elm, $attrs) {
+        return $elm.imagefill({
+          target: 'video'
+        });
+      }
+    };
+  });
+
+  angular.module('ba.directives.pane.window', []).directive('paneWindow', function() {
+    return {
+      restrict: 'C',
+      scope: {
+        percent: '=?paneWindow'
+      },
+      link: function($scope, $elm, $attrs) {
+        var percent;
+        percent = ($scope.percent / 100) || 1;
+        return $(window).on('resize', function(event) {
+          return $elm.height(this.innerHeight * percent);
+        }).trigger('resize');
+      }
+    };
   });
 
   angular.module('ba.services.cart', []).service('Cart', function($rootScope, $http) {

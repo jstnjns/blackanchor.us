@@ -5,5 +5,3 @@ $ ->
   section = components[0] or 'home'
 
   $(document.body).addClass "section-#{section} page-#{path}"
-
-  $('.pane-img').imagefill()

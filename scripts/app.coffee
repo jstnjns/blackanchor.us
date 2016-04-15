@@ -1,6 +1,7 @@
 angular
   .module 'ba', [
-    'ba.controllers',
+    'ba.controllers'
+    'ba.directives'
     'ba.services'
   ]
 

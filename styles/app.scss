@@ -68,6 +68,10 @@ video {
   vertical-align: top;
 }
 
+hr {
+  max-width: 320px;
+}
+
 .ng-cloak { display: none; }
 [ng-click] { cursor: pointer; }
 
